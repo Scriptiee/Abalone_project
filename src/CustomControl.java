@@ -12,5 +12,7 @@ public class CustomControl extends Control {
 	//Constructor
 	public CustomControl(){
 		
+		// needs code here
+		
 	}
 }
