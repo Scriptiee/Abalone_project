@@ -17,7 +17,7 @@ public class CustomControl extends Control {
 		setSkin(new CustomControlSkin(this));
 		getChildren().add(abaloneBoard);
 
-		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces
+		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces 
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 			// overridden handle method
 			@Override

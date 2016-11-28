@@ -16,7 +16,7 @@ public class Cell extends Pane {
 	};
 	
 	public 	Cell() {
-		// Create cell shape here
+		// Create cell shape here 
 		Polygon hex = new Polygon(hexPoints);
 		
 		hex.setStroke(Color.BLACK);
