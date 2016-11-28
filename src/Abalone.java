@@ -15,7 +15,7 @@ public class Abalone extends Application {
 	}
 	
 	@Override public void start(Stage primaryStage){
-		primaryStage.setTitle("JavaFX - UltimateXOs Game");
+		primaryStage.setTitle("JavaFX - Abalone Game");
 		primaryStage.setScene(new Scene(sp_mainlayout,700,700));
 		primaryStage.show();
 				
