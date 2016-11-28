@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 
 public class Abalone extends Application {
-	//private field
+	//private fields
 	StackPane sp_mainlayout = new StackPane();
 	CustomControl cc_custom = new CustomControl();
 	

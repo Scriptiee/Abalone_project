@@ -4,7 +4,7 @@ import javafx.scene.shape.Polygon;
 
 public class AbaloneBoard extends Pane {
 	
-	// position and size of master board 
+	// position and size of master board
 	double[] hexPoints = new double[] {
 			200.0,0.0, // top left
 			500.0,0.0, // top right

@@ -8,7 +8,7 @@ public class Piece extends Group{
 	
 	// constructor for the class
 	public Piece(Color player) {
-		// single piece across the board just separate colours? needs implementing 
+		// single piece across the board just separate colours? needs implementing
 		piece = new Ellipse();
 		piece.setFill(player);
 	}

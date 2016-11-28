@@ -1,4 +1,4 @@
-// just a test file really, this code probably needs to be in AbaloneBoard.java or even the main Abalone.java file
+// just a test file really, this code probably needs to be in AbaloneBoard.java or even the main Abalone.java file 
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
