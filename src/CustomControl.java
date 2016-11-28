@@ -47,7 +47,7 @@ public class CustomControl extends Control {
 	public void resize(double width, double height) {
 		// update the size of the rectangle
 		super.resize(width, height);
-		//abaloneBoard.resize(width, height); TODO
+		abaloneBoard.resize(width, height);
 	}
 }
 
