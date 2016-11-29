@@ -16,6 +16,10 @@ public class AbaloneBoard extends Pane {
 	}
 	
 	// Overridden resize method
+	// DO WE WANT TO RESIZE? the edges should be all the same length as
+	// well as all angles beeing 120 degrees as that is the property of 
+	// hexagon. Maybe look into hardcoding the size of the board and disabling 
+	// resizing altogether?
 	@Override
 	public void resize(double width, double height){
 		super.resize(width, height);
