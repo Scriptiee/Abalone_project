@@ -9,13 +9,9 @@ import javafx.scene.input.MouseEvent;
 
 public class CustomControl extends Control {
 
-	// private fields of the class
-	AbaloneBoard abaloneBoard = new AbaloneBoard();
-
 	//Constructor
 	public CustomControl(){
 		setSkin(new CustomControlSkin(this));
-		getChildren().add(abaloneBoard);
 
 		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -47,7 +43,7 @@ public class CustomControl extends Control {
 	public void resize(double width, double height) {
 		// update the size of the rectangle
 		super.resize(width, height);
-		abaloneBoard.resize(width, height);
+		
 	}
 }
 

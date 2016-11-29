@@ -2,29 +2,22 @@
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Circle;
 
 public class Cell extends Pane {
 	
-	double[] hexPoints = new double[] {
-			200.0,10.0,
-			500.0,10.0,
-			690.0,350.0,
-			500.0,690.0,
-			200.0,690.0,
-			10.0,350.0
-	};
+	CustomControl cc_control = new CustomControl();
+	Circle render = new Circle();
 	
 	public 	Cell() {
 		// Create cell shape here 
-		Polygon hex = new Polygon(hexPoints);
+		render.setFill(Color.RED);
+		render.setRadius(50);
 		
-		hex.setStroke(Color.BLACK);
-		hex.setFill(Color.RED);
-
-		getChildren().addAll(hex);
+		getChildren().addAll(render);
 	}
 }
+
 
 /* -----STILL NEEDS----- 
  * (take a comment and work on it)

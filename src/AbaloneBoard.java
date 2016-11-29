@@ -1,18 +1,31 @@
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
-public class AbaloneBoard extends Pane {
+public class AbaloneBoard extends GridPane {
 	
 	// private vars for the class
 	Polygon hex = new Polygon();
+	Cell render = new Cell();
+	
+	private Cell[][] test = new Cell[9][9];
 	
 	// Board should create master board & add all Cell and Piece to it TODO
 	public AbaloneBoard(){
 		hex.setStroke(Color.BLACK);
-		hex.setFill(Color.BLUE);
-
-		getChildren().addAll(hex);
+		hex.setFill(Color.TRANSPARENT);
+		
+		getChildren().add(hex);
+		for (int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++){
+				test[i][j] = new Cell();
+				test[i][j].setTranslateX(100*j);
+				//test[i][j].setTranslateX(getTranslateX()+50);
+				getChildren().add(i,test[i][j]);
+			}
+		}
+		
 	}
 	
 	// Overridden resize method
@@ -32,12 +45,12 @@ public class AbaloneBoard extends Pane {
 		double topLeft = width-(singleCellSizeWidth*7);
 		double topRight = width-(singleCellSizeWidth*2);
 		double middleRightX = width;
-		double middleRightY = height-(singleCellSizeHeight*5);
+		double middleRightY = height-(singleCellSizeHeight*4.5);
 		double bottomRightX = width-(singleCellSizeWidth*2);
 		double bottomRightY = height;
 		double bottomLeftX = width-(singleCellSizeWidth*7);
 		double bottomLeftY = height;
-		double middleLeftY = height-(singleCellSizeHeight*5);
+		double middleLeftY = height-(singleCellSizeHeight*4.5);
 		
 		// Add resized points to hexagon
 		hex.getPoints().addAll(new Double[]{
