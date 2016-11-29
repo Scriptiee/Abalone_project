@@ -12,6 +12,7 @@ public class CustomControl extends Control {
 	//Constructor
 	public CustomControl(){
 		setSkin(new CustomControlSkin(this));
+		System.out.println("here");
 
 		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -43,7 +44,6 @@ public class CustomControl extends Control {
 	public void resize(double width, double height) {
 		// update the size of the rectangle
 		super.resize(width, height);
-		
 	}
 }
 

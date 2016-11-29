@@ -5,24 +5,27 @@ import javafx.scene.shape.Polygon;
 
 public class AbaloneBoard extends GridPane {
 	
+
+	
 	// private vars for the class
 	Polygon hex = new Polygon();
 	Cell render = new Cell();
 	
-	private Cell[][] test = new Cell[9][9];
+	private Cell[][] test = new Cell[21][21];
 	
 	// Board should create master board & add all Cell and Piece to it TODO
 	public AbaloneBoard(){
 		hex.setStroke(Color.BLACK);
 		hex.setFill(Color.TRANSPARENT);
-		
-		getChildren().add(hex);
-		for (int i = 0; i < 9; i++){
-			for (int j = 0; j < 9; j++){
+		//setVgap(10);
+		//setHgap(10);
+		//getChildren().add(hex);
+		for (int i = 0; i < 21; i++){
+			for (int j = 0; j < 21; j++){
 				test[i][j] = new Cell();
-				test[i][j].setTranslateX(100*j);
-				//test[i][j].setTranslateX(getTranslateX()+50);
-				getChildren().add(i,test[i][j]);
+				//test[i][j].setTranslateX(50*j);
+				//test[i][j].setTranslateY(50*i);
+				add(test[i][j],i,j);
 			}
 		}
 		
