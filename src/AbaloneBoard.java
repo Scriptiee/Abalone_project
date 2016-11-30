@@ -1,72 +1,48 @@
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 
 public class AbaloneBoard extends GridPane {
 	
 
 	
 	// private vars for the class
-	Polygon hex = new Polygon();
 	Cell render = new Cell();
 	
-	private Cell[][] test = new Cell[21][21];
+	// array of cells 
+	private Cell[][] boardCells = new Cell[18][11];
 	
 	// Board should create master board & add all Cell and Piece to it TODO
 	public AbaloneBoard(){
-		hex.setStroke(Color.BLACK);
-		hex.setFill(Color.TRANSPARENT);
-		//setVgap(10);
-		//setHgap(10);
-		//getChildren().add(hex);
-		for (int i = 0; i < 21; i++){
-			for (int j = 0; j < 21; j++){
-				test[i][j] = new Cell();
-				//test[i][j].setTranslateX(50*j);
-				//test[i][j].setTranslateY(50*i);
-				add(test[i][j],i,j);
+		// position the grid in the center
+		setAlignment(Pos.CENTER);
+		// set some padding for pretty
+		setPadding(new Insets(35,0,0,50));
+		// Hgap and Vgap to make it allign with the HEX (might be a better way of doing that)
+		setHgap(-15);
+		setVgap(15);
+		
+		// Rendering loop
+		for (int i = 0; i < boardCells.length; i++){
+			for (int j = 0; j < boardCells[i].length; j++){
+				// first and last row
+				if(((j==1 || j==9) && i >4 && i <= 13 && i%2!=0) ||
+						// second and second last row
+						((j==2 || j==8) && i >3 && i < 15 && i%2==0) ||
+						// third and seventh row
+						((j==3 || j==7) && i >=3 && i <=15 && i%2!=0) ||
+						// fourth and sixth row
+						((j==4 || j==6) && i >=2 && i<=16 && i%2==0) ||
+						// center row
+						(j==5 && i>=1 && i<=17 && i%2!=0)) {
+					boardCells[i][j] = new Cell();
+					add(boardCells[i][j],i,j);		
+					}
+				}
 			}
 		}
-		
 	}
 	
-	// Overridden resize method
-	// DO WE WANT TO RESIZE? the edges should be all the same length as
-	// well as all angles beeing 120 degrees as that is the property of 
-	// hexagon. Maybe look into hardcoding the size of the board and disabling 
-	// resizing altogether?
-	@Override
-	public void resize(double width, double height){
-		super.resize(width, height);
-		double singleCellSizeWidth = width/9;	// Size of one cell width
-		double singleCellSizeHeight = height/9; // Size of one cell height
-		
-		hex.getPoints().clear(); // Clear previous points
-		
-		// Calculate all points for the Hexagon
-		double topLeft = width-(singleCellSizeWidth*7);
-		double topRight = width-(singleCellSizeWidth*2);
-		double middleRightX = width;
-		double middleRightY = height-(singleCellSizeHeight*4.5);
-		double bottomRightX = width-(singleCellSizeWidth*2);
-		double bottomRightY = height;
-		double bottomLeftX = width-(singleCellSizeWidth*7);
-		double bottomLeftY = height;
-		double middleLeftY = height-(singleCellSizeHeight*4.5);
-		
-		// Add resized points to hexagon
-		hex.getPoints().addAll(new Double[]{
-				topLeft,0.0, // top left
-				topRight,0.0, // top right
-				middleRightX,middleRightY,// middle right
-				bottomRightX,bottomRightY,// bottom right
-				bottomLeftX,bottomLeftY,// bottom left
-				0.0,middleLeftY  // middle left
-		});
-	}
-}
-
 /* -----STILL NEEDS----- 
  * (take a comment and work on it)
  * reset game method

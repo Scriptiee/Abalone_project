@@ -2,6 +2,7 @@
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class Cell extends Pane {
@@ -11,8 +12,10 @@ public class Cell extends Pane {
 	
 	public 	Cell() {
 		// Create cell shape here 
-		render.setFill(Color.RED);
-		render.setRadius(50);
+		render.setFill(Color.WHITE);
+		render.setStroke(Color.RED);
+		render.setRadius(25);
+		
 		
 		getChildren().addAll(render);
 	}
