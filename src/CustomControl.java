@@ -12,7 +12,6 @@ public class CustomControl extends Control {
 	//Constructor
 	public CustomControl(){
 		setSkin(new CustomControlSkin(this));
-		System.out.println("here");
 
 		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
