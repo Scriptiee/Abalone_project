@@ -17,14 +17,14 @@ public class Abalone extends Application {
 	Polygon hex = new Polygon();
 	// Border pane to separate scores from the the game board
 	BorderPane border = new BorderPane();
-	// Game score to be held in this one
+	// Game score to be held in this one could replace with VBox tbh, no need for flow pane unless we will introduce 4 player variant
 	FlowPane gamescore = new FlowPane();
 	// The actuall board
 	AbaloneBoard abaloneBoard = new AbaloneBoard();
 	
 	// Overridden init method
 	@Override public void init(){
-		// pints for the polygon class to create the hex shape (better way of doing that?)
+				// pints for the polygon class to create the hex shape (better way of doing that?)
 		hex.getPoints().addAll(155.0,0.0,
 				545.0,0.0,
 				720.0,350.0,
