@@ -22,7 +22,6 @@ public class Cell extends Pane {
 
 		// Create cell shape here and add to Pane
 		render.setFill(Color.DARKGREY);
-		render.setStroke(Color.RED);
 		render.setRadius(25);
 		getChildren().addAll(render);
 

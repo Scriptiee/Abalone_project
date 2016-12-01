@@ -28,38 +28,38 @@ public class AbaloneBoard extends GridPane {
 			for (int j = 0; j < boardCells[i].length; j++){
 				// first and last row
 				if(((j==1 || j == 9) && i > 4 && i <= 13 && i%2!=0) ||
-						// second and second last row
-						((j==2 || j==8) && i >3 && i < 15 && i%2==0) ||
-						// third and seventh row
-						((j==3 || j==7) && i >=3 && i <=15 && i%2!=0) ||
-						// fourth and sixth row
-						((j==4 || j==6) && i >=2 && i<=16 && i%2==0) ||
-						// center row
-						(j==5 && i>=1 && i<=17 && i%2!=0)) {
+					// second and second last row
+					((j==2 || j==8) && i >3 && i < 15 && i%2==0) ||
+					// third and seventh row
+					((j==3 || j==7) && i >=3 && i <=15 && i%2!=0) ||
+					// fourth and sixth row
+					((j==4 || j==6) && i >=2 && i<=16 && i%2==0) ||
+					// center row
+					(j==5 && i>=1 && i<=17 && i%2!=0)) {
 
 					// Place player pieces
 					// FOR WHITE PIECES
-					if((j==1 || j==2) || ((j==3) && i > 6 && i < 12)){ 
-						boardCells[i][j] = new Cell(i,j);
-						boardCells[i][j].setPiece(PLAYER1);
-						add(boardCells[i][j],i,j);
+						if((j==1 || j==2) || ((j==3) && i > 6 && i < 12)){ 
+							boardCells[i][j] = new Cell(i,j);
+							boardCells[i][j].setPiece(PLAYER1);
+							add(boardCells[i][j],i,j);
+						}
+						// FOR BLACK PIECES
+						else if ((j==8 || j == 9) || ((j==7) && i > 6 && i < 12)){ 
+							boardCells[i][j] = new Cell(i,j);
+							boardCells[i][j].setPiece(PLAYER2);
+							add(boardCells[i][j],i,j);
+						}
+						// FOR EMPTY PIECES
+						else {	
+							boardCells[i][j] = new Cell(i,j);
+							boardCells[i][j].setPiece(EMPTY);
+							add(boardCells[i][j],i,j);
+						}	
 					}
-					// FOR BLACK PIECES
-					else if ((j==8 || j == 9) || ((j==7) && i > 6 && i < 12)){ 
-						boardCells[i][j] = new Cell(i,j);
-						boardCells[i][j].setPiece(PLAYER2);
-						add(boardCells[i][j],i,j);
-					}
-					// FOR EMPTY PIECES
-					else {	
-						boardCells[i][j] = new Cell(i,j);
-						boardCells[i][j].setPiece(EMPTY);
-						add(boardCells[i][j],i,j);
-					}	
 				}
 			}
 		}
-	}
 
 	// fills a clickedCells arrays of all currently active cells (safety: if more than 3 are selected -> clear them all
 	public static void listAllClickedCells(){
@@ -100,7 +100,7 @@ public class AbaloneBoard extends GridPane {
 		for (int x = 0; x < 6; x++){
 			if (x == 0) System.out.println("Cell: "+ activeCell.getUserData()+" has neighbours: \nTop Left: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);
 			if (x == 1) System.out.println("Top Right: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);
-			if (x == 2) System.out.println("Middle: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);
+			if (x == 2) System.out.println("Right: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);
 			if (x == 3) System.out.println("Bottom Right: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);
 			if (x == 4) System.out.println("Bottom Left: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);
 			if (x == 5){ System.out.println("Left: " + activeCellNeighbours[x][0] + "," + activeCellNeighbours[x][1]);System.out.println("============");}
