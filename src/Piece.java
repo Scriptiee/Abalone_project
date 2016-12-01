@@ -1,16 +1,23 @@
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Circle;
 
 public class Piece extends Group{
 	// private fields of the class
-	private Ellipse piece; // for rendering the pieces
+	private Circle piece; // for rendering the pieces
+	private Color playerColour;
 	
 	// constructor for the class
 	public Piece(Color player) {
-		// single piece across the board just separate colours? needs implementing
-		piece = new Ellipse();
-		piece.setFill(player);
+		playerColour = player;
+		piece = new Circle(22);
+		piece.setFill(playerColour);
+		getChildren().add(piece);
+	}
+	
+	// returns this pieces colour
+	public Color getPiece(){
+		return playerColour;
 	}
 }
 
