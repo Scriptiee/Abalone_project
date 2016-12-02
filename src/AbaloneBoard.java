@@ -8,10 +8,11 @@ public class AbaloneBoard extends GridPane {
 
 	// private vars for the class
 	// array of cells 
-	private static Cell[][] boardCells = new Cell[18][11];
+	private static Cell[][] boardCells = new Cell[19][11];
 	private final Color EMPTY = Color.TRANSPARENT;
 	private final Color PLAYER1 = Color.WHITE;
 	private final Color PLAYER2 = Color.BLACK;
+	private final Color PIECEOUT = Color.BLUE;
 
 	// Board should create master board & add all Cell and Piece to it TODO
 	public AbaloneBoard(){
@@ -56,6 +57,14 @@ public class AbaloneBoard extends GridPane {
 							boardCells[i][j].setPiece(EMPTY);
 							add(boardCells[i][j],i,j);
 						}	
+					} else if ((( j==0 || j==10) && i>3 && i< 15 && i%2==0) ||
+							((j==1 || j==9) && (i==3 || i==4 || i==14 || i==15)) ||
+							((j==2 || j==8) && (i==2 || i==3 || i==15 || i==16)) ||
+							((j==3 || j==7) && (i==1 || i==2 || i==16 || i==17)) ||
+							((j==4 || j==6) && (i==0 || i==1 || i==17 || i==18)) ||
+							((j==5 && (i==0 || i==18)))) {
+							boardCells[i][j] = new Cell(i,j);
+							boardCells[i][j].setPiece(PIECEOUT);
 					}
 				}
 			}

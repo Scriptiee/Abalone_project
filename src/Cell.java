@@ -28,7 +28,7 @@ public class Cell extends Pane {
 		// Colour used when a piece is clicked
 		clickedGraphic.setFill(new Color(1,1,0,0.5));
 		clickedGraphic.setStroke(Color.YELLOW);
-		clickedGraphic.setRadius(25);
+		clickedGraphic.setRadius(24); // 24 fixes jerky resizing of the board when clicking on a piece
 
 		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
