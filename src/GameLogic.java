@@ -1,11 +1,10 @@
 public class GameLogic {
 	
-	public static void movePice() {
-		
-		
-		
-		
-		
+	
+	
+	public static void movePiece(Cell currentLoc, Cell newLoc, Cell player) {
+		newLoc.setPiece(currentLoc.getCurrentPiece());
+		currentLoc.clear();	
 		
 	}
 	
