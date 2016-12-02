@@ -40,7 +40,6 @@ public class Cell extends Pane {
 						isClicked();
 					} else if(!event.isShiftDown()){ // if shift key is not pressed -> MOVE?
 						//TODO
-//						GameLogic.movePiece(currentLoc, newLoc, getCurrentPiece());
 					}
 				}
 			}

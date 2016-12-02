@@ -65,6 +65,8 @@ public class AbaloneBoard extends GridPane {
 							((j==5 && (i==0 || i==18)))) {
 							boardCells[i][j] = new Cell(i,j);
 							boardCells[i][j].setPiece(PIECEOUT);
+					} else {
+						boardCells[i][j] = null;
 					}
 				}
 			}
