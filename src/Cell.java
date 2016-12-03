@@ -37,7 +37,7 @@ public class Cell extends Pane {
 			public void handle(MouseEvent event) {
 				if (event.getButton().toString() == "PRIMARY"){
 					if(event.isShiftDown()){ // if shift key is pressed
-						isClicked();
+						isClicked(i, j);
 					} else if(!event.isShiftDown()){ // if shift key is not pressed -> MOVE?
 						//TODO
 					}
@@ -59,20 +59,23 @@ public class Cell extends Pane {
 	}
 
 	// checks if cell contains a piece -> isClicked boolean true/false -> draws/removes highlighted graphic -> update AbaloneBoard
-	public void isClicked(){
+	public void isClicked(int x, int y){
 		if(getCurrentPiece()!=EMPTY){
 			isClicked = !isClicked;
 			if(isClicked){
 				getChildren().add(clickedGraphic);
+				AbaloneBoard.recordClickedCell(x, y);
+//				System.out.println(Integer.parseInt(getUserData().toString().split(",")[0]));
+//				System.out.println(Integer.parseInt(getUserData().toString().split(",")[1]));
 			} else {
 				// if there is a clickedGraphic already in this cell, remove it
+				AbaloneBoard.untrackClickedCell(x, y);
 				for (int i = 0; i < getChildren().size(); i++){
 					if(getChildren().get(i) == clickedGraphic){ 
 						getChildren().remove(i);
 					}
 				}
 			}
-			AbaloneBoard.listAllClickedCells();
 		}
 	}
 

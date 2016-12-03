@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -13,6 +15,9 @@ public class AbaloneBoard extends GridPane {
 	private final Color PLAYER1 = Color.WHITE;
 	private final Color PLAYER2 = Color.BLACK;
 	private final Color PIECEOUT = Color.BLUE;
+	static ArrayList<Cell> clickedCells = new ArrayList(3);
+		
+		
 
 	// Board should create master board & add all Cell and Piece to it TODO
 	public AbaloneBoard(){
@@ -56,7 +61,8 @@ public class AbaloneBoard extends GridPane {
 							boardCells[i][j] = new Cell(i,j);
 							boardCells[i][j].setPiece(EMPTY);
 							add(boardCells[i][j],i,j);
-						}	
+						}
+					// edge/exit cells (better way of tracking when something goes of the board?)
 					} else if ((( j==0 || j==10) && i>3 && i< 15 && i%2==0) ||
 							((j==1 || j==9) && (i==3 || i==4 || i==14 || i==15)) ||
 							((j==2 || j==8) && (i==2 || i==3 || i==15 || i==16)) ||
@@ -73,32 +79,27 @@ public class AbaloneBoard extends GridPane {
 		}
 
 	// fills a clickedCells arrays of all currently active cells (safety: if more than 3 are selected -> clear them all
-	public static void listAllClickedCells(){
-		int counter = 0;
-		for (int i = 0; i < boardCells.length; i++){
-			for (int j = 0; j < boardCells[i].length; j++){
-				if(boardCells[i][j] != null){
-					if(boardCells[i][j].getIsClicked()){
-						displayNeighbours(boardCells[i][j]);
-						if (counter < 3){
-							counter++;
-						} 
-						// if more than 3 selected, clear them all
-						else {
-							for (int x = 0; x < boardCells.length; x++){
-								for (int y = 0; y < boardCells[x].length; y++){
-									if(boardCells[x][y] != null){
-										boardCells[x][y].clear();
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+	public static void recordClickedCell(int x, int y){
+		if(clickedCells.size() < 3) {
+		clickedCells.add(boardCells[x][y]);
+		System.out.println("number of clicked cells: " + clickedCells.size());
+		System.out.println("cell placed at index: " + clickedCells.indexOf(boardCells[x][y]));
+		} else {
+			boardCells[x][y].clear();
+			clickedCells.forEach(clickedCells->clickedCells.clear());
+			clickedCells.clear();
+			clickedCells.trimToSize();
 		}
 	}
-
+	
+	public static void untrackClickedCell(int x, int y) {
+		if(clickedCells.size() > 0) {
+			clickedCells.remove(clickedCells.indexOf(boardCells[x][y]));
+			clickedCells.trimToSize();
+			System.out.println("New count of clicked cells: " +clickedCells.size());
+		}
+	}
+		
 	/*
 	*  Display neighbours of all selected cells
 	*  Printing for debug purposes only
