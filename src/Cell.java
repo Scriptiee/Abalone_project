@@ -15,7 +15,7 @@ public class Cell extends Pane {
 	Piece aPiece = new Piece(EMPTY);
 	Circle clickedGraphic = new Circle();
 
-	private int[][] neighbours = new int[6][2];
+	private Cell[] neighbours = new Cell[6];
 
 	public Cell(int i, int j) {
 		this.setUserData(i+","+j); // Set cell column & row to User Data
@@ -40,6 +40,7 @@ public class Cell extends Pane {
 						isClicked(i, j);
 					} else if(!event.isShiftDown()){ // if shift key is not pressed -> MOVE?
 						//TODO
+						GameLogic.movePiece(i, j);
 					}
 				}
 			}
@@ -64,12 +65,10 @@ public class Cell extends Pane {
 			isClicked = !isClicked;
 			if(isClicked){
 				getChildren().add(clickedGraphic);
-				AbaloneBoard.recordClickedCell(x, y);
-//				System.out.println(Integer.parseInt(getUserData().toString().split(",")[0]));
-//				System.out.println(Integer.parseInt(getUserData().toString().split(",")[1]));
+				AbaloneBoard.recordClickedCell(this);
 			} else {
 				// if there is a clickedGraphic already in this cell, remove it
-				AbaloneBoard.untrackClickedCell(x, y);
+				AbaloneBoard.untrackClickedCell(this);
 				for (int i = 0; i < getChildren().size(); i++){
 					if(getChildren().get(i) == clickedGraphic){ 
 						getChildren().remove(i);
@@ -90,27 +89,21 @@ public class Cell extends Pane {
 	}
 
 	// get neighbouring cells and return their position in an array (clockwise beginning from top left)
-	public int[][] getNeighbours(){
-		// convert userData from string to two int values
+	public Cell[] getNeighbours(){
+		
 		String[] cell = getUserData().toString().split(",");
-		int[] cellNum = new int[2];
-		cellNum[0] = Integer.parseInt(cell[0]);
-		cellNum[1] = Integer.parseInt(cell[1]);
-
-		// top left
-		neighbours[0][0] = (cellNum[0]-1); neighbours[0][1] = (cellNum[1]-1);
-		// top right
-		neighbours[1][0] = (cellNum[0]+1);neighbours[1][1] = (cellNum[1]-1);
-		// right
-		neighbours[2][0] = (cellNum[0]+2);neighbours[2][1] = (cellNum[1]);
-		// bottom right
-		neighbours[3][0] = (cellNum[0]+1);neighbours[3][1] = (cellNum[1]+1);
-		// bottom left
-		neighbours[4][0] = (cellNum[0]-1);neighbours[4][1] = (cellNum[1]+1);
-		// left
-		neighbours[5][0] = (cellNum[0]-2);neighbours[5][1] = (cellNum[1]);
-
-		// providing neighbours[position][column/row]
+		Integer x = Integer.parseInt(cell[0]); 
+		Integer y  = Integer.parseInt(cell[1]);
+		
+		for(int i=0; i < neighbours.length; i++) {
+			if(i==0) neighbours[i] = AbaloneBoard.getCell(x-1, y-1);
+			if(i==1) neighbours[i] = AbaloneBoard.getCell(x+1, y-1);
+			if(i==2) neighbours[i] = AbaloneBoard.getCell(x+2, y);
+			if(i==3) neighbours[i] = AbaloneBoard.getCell(x+1, y+1);
+			if(i==4) neighbours[i] = AbaloneBoard.getCell(x-1, y+1);
+			if(i==5) neighbours[i] = AbaloneBoard.getCell(x-2, y);
+		}
+		
 		return neighbours;
 	}
 
