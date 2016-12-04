@@ -39,7 +39,7 @@ public class Cell extends Pane {
 					if(event.isShiftDown()){ // if shift key is pressed
 						isClicked(i, j);
 					} else if(!event.isShiftDown()){ // if shift key is not pressed -> MOVE?
-						//TODO
+						// Call method responsible for moving the piece
 						GameLogic.movePiece(i, j);
 					}
 				}
@@ -64,6 +64,8 @@ public class Cell extends Pane {
 		if(getCurrentPiece()!=EMPTY){
 			isClicked = !isClicked;
 			if(isClicked){
+				// TODO 
+				// sanity check to make sure second clicked cell is a neighbour of the first one
 				getChildren().add(clickedGraphic);
 				AbaloneBoard.recordClickedCell(this);
 			} else {

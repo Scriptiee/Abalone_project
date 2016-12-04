@@ -78,7 +78,7 @@ public class AbaloneBoard extends GridPane {
 			}
 		}
 
-	// fills a clickedCells arrays of all currently active cells (safety: if more than 3 are selected -> clear them all
+	// fills a clickedCells ArrayList to keep track of currently clicked cells -> clear if more than 3 clicked
 	public static void recordClickedCell(Cell cell){
 		if(clickedCells.size() < 3) {
 		clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
@@ -87,16 +87,24 @@ public class AbaloneBoard extends GridPane {
 		System.out.println("cell placed at index: " + clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
 		// END OF DEBUG PRINT
 		} else {
+			// this is to ignore the 4th click and 
 			boardCells[getCoords(cell)[0]][getCoords(cell)[1]].clear();
-			clickedCells.forEach(clickedCells->clickedCells.clear());
+			// fancy clear all cells 
+			clickedCells.forEach(clickedCell->clickedCell.clear());
+			// Clear the ArrayList
 			clickedCells.clear();
+			// Trim it to Size 0
 			clickedCells.trimToSize();
 		}
 	}
 	
+	// removes a cell from ArrayList if clicked again
 	public static void untrackClickedCell(Cell cell) {
+		// sanity check though probably not necessary as isClicked is kind of handling this
 		if(clickedCells.size() > 0) {
+			// remove the cell from the ArrayList
 			clickedCells.remove(clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
+			// Trim the size of the array
 			clickedCells.trimToSize();
 			// DEBUG PRINT
 			System.out.println("New count of clicked cells: " +clickedCells.size());
@@ -117,6 +125,7 @@ public class AbaloneBoard extends GridPane {
 		return boardCells[x][y];			
 	}
 	
+	// helper method to get cell coordinations from getUserData(), might be usefull at later stage
 	public static int[] getCoords(Cell cell) {
 		int[] coords = new int[2];
 		coords[0] = Integer.parseInt(cell.getUserData().toString().split(",")[0]);
