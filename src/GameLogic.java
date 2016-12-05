@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 public class GameLogic {
 
 	private final static Color EMPTY = Color.TRANSPARENT;
-	private static int direction = 0;
+	private static int direction = 0; // 0 == TL || 1 == TR || 2 == R || 3 == BR || 4 == BL || 5 == L
 	private static ArrayList<Cell> allClickedCells = new ArrayList<Cell>();
 
 	// movePiece method that handles neighbours checking and the movement
@@ -20,6 +20,7 @@ public class GameLogic {
 				// active cells piece
 				Color activeCellsColor = allClickedCells.get(0).getCurrentPiece();
 				
+				// set all clicked cells to EMPTY
 				for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
 				
 				// for every clicked cell
