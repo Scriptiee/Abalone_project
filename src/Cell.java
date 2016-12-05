@@ -30,7 +30,7 @@ public class Cell extends Pane {
 		clickedGraphic.setStroke(Color.YELLOW);
 		clickedGraphic.setRadius(24); // 24 fixes jerky resizing of the board when clicking on a piece
 
-		// add a mouse clicked listener that will detect is shift is pressed or not, and add or move pieces
+		// add a mouse clicked listener that will detect if shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 			// overridden handle method
 			@Override
@@ -43,6 +43,7 @@ public class Cell extends Pane {
 						GameLogic.movePiece(i, j);
 					}
 				}
+
 			}
 		});
 	}
@@ -61,19 +62,22 @@ public class Cell extends Pane {
 
 	// checks if cell contains a piece -> isClicked boolean true/false -> draws/removes highlighted graphic -> update AbaloneBoard
 	public void isClicked(int x, int y){
-		if(getCurrentPiece()!=EMPTY){
-			isClicked = !isClicked;
-			if(isClicked){
-				// TODO 
-				// sanity check to make sure second clicked cell is a neighbour of the first one
-				getChildren().add(clickedGraphic);
-				AbaloneBoard.recordClickedCell(this);
-			} else {
-				// if there is a clickedGraphic already in this cell, remove it
-				AbaloneBoard.untrackClickedCell(this);
-				for (int i = 0; i < getChildren().size(); i++){
-					if(getChildren().get(i) == clickedGraphic){ 
-						getChildren().remove(i);
+		if (AbaloneBoard.isAllActivePiecesSameColor(this)){ // check if active piece = new active piece
+			if(getCurrentPiece()!=EMPTY){
+				isClicked = !isClicked;
+				if(isClicked){
+					// TODO 
+					// sanity check to make sure second clicked cell is a neighbour of the first one
+					if (AbaloneBoard.recordClickedCell(this)){
+						getChildren().add(clickedGraphic);
+					}
+				} else {
+					// if there is a clickedGraphic already in this cell, remove it
+					AbaloneBoard.untrackClickedCell(this);
+					for (int i = 0; i < getChildren().size(); i++){
+						if(getChildren().get(i) == clickedGraphic){ 
+							getChildren().remove(i);
+						}
 					}
 				}
 			}
@@ -91,12 +95,11 @@ public class Cell extends Pane {
 	}
 
 	// get neighbouring cells and return their position in an array (clockwise beginning from top left)
-	public Cell[] getNeighbours(){
-		
+	public Cell[] getAllNeighbours(){
 		String[] cell = getUserData().toString().split(",");
 		Integer x = Integer.parseInt(cell[0]); 
 		Integer y  = Integer.parseInt(cell[1]);
-		
+
 		for(int i=0; i < neighbours.length; i++) {
 			if(i==0) neighbours[i] = AbaloneBoard.getCell(x-1, y-1);
 			if(i==1) neighbours[i] = AbaloneBoard.getCell(x+1, y-1);
@@ -105,11 +108,27 @@ public class Cell extends Pane {
 			if(i==4) neighbours[i] = AbaloneBoard.getCell(x-1, y+1);
 			if(i==5) neighbours[i] = AbaloneBoard.getCell(x-2, y);
 		}
-		
+
 		return neighbours;
 	}
 
 	/* GETTERS / SETTERS */
+	// return color of neighbour piece in a given direction
+	public Color getNeighbourPiece(int direction){
+		String[] cell = getUserData().toString().split(",");
+		Integer x = Integer.parseInt(cell[0]); 
+		Integer y  = Integer.parseInt(cell[1]);
+
+		if(direction==0) return AbaloneBoard.getCell(x-1, y-1).getCurrentPiece();
+		if(direction==1) return AbaloneBoard.getCell(x+1, y-1).getCurrentPiece();
+		if(direction==2) return AbaloneBoard.getCell(x+2, y).getCurrentPiece();
+		if(direction==3) return AbaloneBoard.getCell(x+1, y+1).getCurrentPiece();
+		if(direction==4) return AbaloneBoard.getCell(x-1, y+1).getCurrentPiece();
+		if(direction==5) return AbaloneBoard.getCell(x-2, y).getCurrentPiece();
+
+		return EMPTY;
+	}
+
 	// get piece currently in this cell
 	public Color getCurrentPiece(){
 		return aPiece.getPiece();
