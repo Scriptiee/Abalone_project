@@ -94,10 +94,6 @@ public class AbaloneBoard extends GridPane {
 						// select cell
 						if(clickedCells.size() < 3) {
 							clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
-							// DEBUG PRINT
-							System.out.println("number of clicked cells: " + clickedCells.size());
-							System.out.println("cell placed at index: " + clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
-							// END OF DEBUG PRINT
 							return true;
 						} else {
 							// this is to ignore the 4th click and 
@@ -166,9 +162,6 @@ public class AbaloneBoard extends GridPane {
 			clickedCells.remove(clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
 			// Trim the size of the array
 			clickedCells.trimToSize();
-			// DEBUG PRINT
-			System.out.println("New count of clicked cells: " +clickedCells.size());
-			// END OF DEBUG PRINT
 		}
 	}
 

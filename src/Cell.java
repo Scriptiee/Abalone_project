@@ -37,10 +37,13 @@ public class Cell extends Pane {
 			public void handle(MouseEvent event) {
 				if (event.getButton().toString() == "PRIMARY"){
 					if(event.isShiftDown()){ // if shift key is pressed
+
 						isClicked(i, j);
+
 					} else if(!event.isShiftDown()){ // if shift key is not pressed -> MOVE?
 						// Call method responsible for moving the piece
-						GameLogic.movePiece(i, j);
+						if(AbaloneBoard.getAllClickedCells().size() > 0)
+							GameLogic.movePiece(i, j);
 					}
 				}
 
@@ -62,7 +65,7 @@ public class Cell extends Pane {
 
 	// checks if cell contains a piece -> isClicked boolean true/false -> draws/removes highlighted graphic -> update AbaloneBoard
 	public void isClicked(int x, int y){
-		if (AbaloneBoard.isAllActivePiecesSameColor(this)){ // check if active piece = new active piece
+		if (AbaloneBoard.isAllActivePiecesSameColor(this)){ // check if active piece type = new active piece type
 			if(getCurrentPiece()!=EMPTY){
 				isClicked = !isClicked;
 				if(isClicked){
@@ -79,8 +82,11 @@ public class Cell extends Pane {
 							getChildren().remove(i);
 						}
 					}
+
 				}
 			}
+		} else {
+			AbaloneBoard.clearAllClickedCells();
 		}
 	}
 
