@@ -78,41 +78,76 @@ public class AbaloneBoard extends GridPane {
 
 	// fills a clickedCells ArrayList to keep track of currently clicked cells -> clear if more than 3 clicked
 	public static boolean recordClickedCell(Cell cell){
-		// if cell clicked is first cell clicked -> return true
+		// if cell clicked is first cell clicked -> always return true
 		if(clickedCells.size() == 0){
 			clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
 			return true;
 		}
+		if(thirdPieceInLine(cell)){
 
-		// ensure shift-clicked cell is a neighbour of at least one previously clicked cell
-		for (int i = 0; i < clickedCells.size(); i++){
-			Cell[] cellNeighbours = clickedCells.get(i).getAllNeighbours();
-			for (int j = 0; j < cellNeighbours.length; j++){
-				if (cellNeighbours[j] == cell){
+			// ensure shift-clicked cell is a neighbour of at least one previously clicked cell
+			for (int i = 0; i < clickedCells.size(); i++){
+				Cell[] cellNeighbours = clickedCells.get(i).getAllNeighbours();
+				for (int j = 0; j < cellNeighbours.length; j++){
+					if (cellNeighbours[j] == cell){
 
-					// select cell
-					if(clickedCells.size() < 3) {
-						clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
-						// DEBUG PRINT
-						System.out.println("number of clicked cells: " + clickedCells.size());
-						System.out.println("cell placed at index: " + clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
-						// END OF DEBUG PRINT
-						return true;
-					} else {
-						// this is to ignore the 4th click and 
-						boardCells[getCoords(cell)[0]][getCoords(cell)[1]].clear();
-						// clear all cells -- moved to method to use in other classes
-						clearAllClickedCells();
-						// Trim it to Size 0
-						clickedCells.trimToSize();
-						return false;
+						// select cell
+						if(clickedCells.size() < 3) {
+							clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
+							// DEBUG PRINT
+							System.out.println("number of clicked cells: " + clickedCells.size());
+							System.out.println("cell placed at index: " + clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
+							// END OF DEBUG PRINT
+							return true;
+						} else {
+							// this is to ignore the 4th click and 
+							boardCells[getCoords(cell)[0]][getCoords(cell)[1]].clear();
+							// clear all cells -- moved to method to use in other classes
+							clearAllClickedCells();
+							// Trim it to Size 0
+							clickedCells.trimToSize();
+							return false;
+						}
 					}
 				}
 			}
 		}
 		return false;
 	}
-	
+
+	// checks if third piece is in line with first and second
+	public static boolean thirdPieceInLine(Cell thirdCell){
+		if(clickedCells.size()==1) return true; // safety
+		Cell[] cellNeighboursOfFirstPiece = clickedCells.get(0).getAllNeighbours(); // Store all neighbours of first cell
+		Cell[] cellNeighboursOfSecondPiece = clickedCells.get(1).getAllNeighbours(); // Store all neighbours of second cell
+
+		// add to end of second piece
+		for (int i = 0; i < cellNeighboursOfFirstPiece.length; i++){			// for all i length of neighbours of first piece
+			if(cellNeighboursOfFirstPiece[i] == clickedCells.get(1)){			// if neighboursOfFirst = second Clicked Cell [i = DIRECTION]
+				for (int j = 0; j < cellNeighboursOfSecondPiece.length; j++){	// for all j length of neighbours of second piece
+					if(cellNeighboursOfSecondPiece[j] == thirdCell){			// if neighboursOfSecond = third clicked cell [j = DIRECTION]
+						if (i == j){											// if i == j -> same direction -> so true
+							return true;
+						}
+					}
+				}
+			}
+		}
+		// add to end of first piece
+		for (int i = 0; i < cellNeighboursOfFirstPiece.length; i++){			// for all i length of neighbours of first piece
+			if(cellNeighboursOfSecondPiece[i] == clickedCells.get(0)){			// if neighboursOfFirst = second Clicked Cell [i = DIRECTION]
+				for (int j = 0; j < cellNeighboursOfSecondPiece.length; j++){	// for all j length of neighbours of second piece
+					if(cellNeighboursOfFirstPiece[j] == thirdCell){			// if neighboursOfSecond = third clicked cell [j = DIRECTION]
+						if (i == j){											// if i == j -> same direction -> so true
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	// ensure active pieces are same as new clicked piece
 	public static boolean isAllActivePiecesSameColor(Cell cell){
 		for (int x = 0; x < clickedCells.size(); x++){
