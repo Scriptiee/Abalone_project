@@ -20,8 +20,8 @@ class NeighboursMap {
 	// returns HashMap of neighbours of a given cell
 	public static HashMap<String, Cell> getNeighboursMap(Cell cell) {
 
-		int x = AbaloneBoard.getCoords(cell)[0];
-		int y = AbaloneBoard.getCoords(cell)[1];
+		int x = cell.getCellPos()[0];
+		int y = cell.getCellPos()[1];
 
 		for(int i=0; i < 6; i++) {
 			if(i==0) neighboursList.put("TopLeft", AbaloneBoard.getCell(x-1, y-1));

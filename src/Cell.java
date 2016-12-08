@@ -7,18 +7,21 @@ import javafx.scene.shape.Circle;
 public class Cell extends Pane {
 
 	// vars of the class
+	private int[] cellPos = new int[2];
+
 	private final Color EMPTY = Color.TRANSPARENT;
-
 	public boolean isClicked = false;
-
-	Circle render = new Circle();
-	Piece aPiece = new Piece(EMPTY);
-	Circle clickedGraphic = new Circle();
-
+	private boolean canBeClicked = true;
 	private Cell[] neighbours = new Cell[6];
 
+	private Circle render = new Circle();
+	private Piece aPiece = new Piece(EMPTY);
+	private Circle clickedGraphic = new Circle();
+
 	public Cell(int i, int j) {
-		this.setUserData(i+","+j); // Set cell column & row to User Data
+		// Set position of cell in array for reference
+		cellPos[0] = i;
+		cellPos[1] = j;
 
 		// Create cell shape here and add to Pane
 		render.setFill(Color.DARKGREY);
@@ -36,17 +39,15 @@ public class Cell extends Pane {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getButton().toString() == "PRIMARY"){
-					if(event.isShiftDown()){ // if shift key is pressed
-
-						isClicked(i, j);
-
-					} else if(!event.isShiftDown()){ // if shift key is not pressed -> MOVE?
-						// Call method responsible for moving the piece
-						if(AbaloneBoard.getAllClickedCells().size() > 0)
-							GameLogic.movePiece(i, j);
+					if(canBeClicked){
+						if(event.isShiftDown()){ 							// IF shift key is pressed
+							isClicked(i, j);								// -> click cell
+						} else if(!event.isShiftDown()){ 					// ELSE IF shift key is not pressed
+							if(AbaloneBoard.getAllClickedCells().size() > 0)// -> if at least one piece clicked
+								MovementAndPushing.movePiece(i, j);			// --> move piece
+						}
 					}
 				}
-
 			}
 		});
 	}
@@ -63,29 +64,29 @@ public class Cell extends Pane {
 		getChildren().add(aPiece); // add new piece to the board
 	}
 
-	// checks if cell contains a piece -> isClicked boolean true/false -> draws/removes highlighted graphic -> update AbaloneBoard
+	// handles shift-clicking of cells
 	public void isClicked(int x, int y){
-		if (AbaloneBoard.isAllActivePiecesSameColor(this)){ // check if active piece type = new active piece type
-			if(getCurrentPiece()!=EMPTY){
-				isClicked = !isClicked;
-				if(isClicked){
-					// TODO 
-					// sanity check to make sure second clicked cell is a neighbour of the first one
-					if (AbaloneBoard.recordClickedCell(this)){
+		// IF CELL IS ALREADY CLICKED
+		if(isClicked){
+			isClicked = !isClicked;
+			if(AbaloneBoard.isMiddleCell(this)){					// is cell the middle of 3
+				AbaloneBoard.clearAllClickedCells();				// true -> remove all cells
+			} else {												// false -> remove clicked cell
+				AbaloneBoard.untrackClickedCell(this);
+				clear();
+			}
+		} // IF CELL IS NOT ALREADY CLICKED
+		else if (AbaloneBoard.isAllActivePiecesSameColor(this)){	// check if active piece type = new active piece type
+			if (AbaloneBoard.isClickedCellANeighbour(this)){		// check if cell a neighbour of previous click
+				if (AbaloneBoard.recordClickedCell(this)){			// record click in AbaloneBoard
+					if(!isClicked){
 						getChildren().add(clickedGraphic);
+						isClicked = !isClicked;
 					}
-				} else {
-					// if there is a clickedGraphic already in this cell, remove it
-					AbaloneBoard.untrackClickedCell(this);
-					for (int i = 0; i < getChildren().size(); i++){
-						if(getChildren().get(i) == clickedGraphic){ 
-							getChildren().remove(i);
-						}
-					}
-
 				}
 			}
 		} else {
+			// if a different colour piece is shift-clicked -> wipe
 			AbaloneBoard.clearAllClickedCells();
 		}
 	}
@@ -100,11 +101,21 @@ public class Cell extends Pane {
 		}
 	}
 
+	/* GETTERS / SETTERS */
+	// Get cells position in array
+	public int[] getCellPos(){
+		return cellPos;
+	}
+
+	// enable or disable whether the cell is clickable or not
+	public void setCanBeClicked(boolean TorF){
+		canBeClicked = TorF;
+	}
+
 	// get neighbouring cells and return their position in an array (clockwise beginning from top left)
-	public Cell[] getAllNeighbours(){
-		String[] cell = getUserData().toString().split(",");
-		Integer x = Integer.parseInt(cell[0]); 
-		Integer y  = Integer.parseInt(cell[1]);
+	public Cell[] getAllNeighbouringCells(){
+		int x = cellPos[0]; 
+		int y  = cellPos[1];
 
 		for(int i=0; i < neighbours.length; i++) {
 			if(i==0) neighbours[i] = AbaloneBoard.getCell(x-1, y-1);
@@ -114,16 +125,13 @@ public class Cell extends Pane {
 			if(i==4) neighbours[i] = AbaloneBoard.getCell(x-1, y+1);
 			if(i==5) neighbours[i] = AbaloneBoard.getCell(x-2, y);
 		}
-
 		return neighbours;
 	}
 
-	/* GETTERS / SETTERS */
 	// return color of neighbour piece in a given direction
 	public Color getNeighbourPiece(int direction){
-		String[] cell = getUserData().toString().split(",");
-		Integer x = Integer.parseInt(cell[0]); 
-		Integer y  = Integer.parseInt(cell[1]);
+		int x = cellPos[0]; 
+		int y  = cellPos[1];
 
 		if(direction==0) return AbaloneBoard.getCell(x-1, y-1).getCurrentPiece();
 		if(direction==1) return AbaloneBoard.getCell(x+1, y-1).getCurrentPiece();
@@ -145,8 +153,3 @@ public class Cell extends Pane {
 		return isClicked;
 	}
 }
-
-/* -----STILL NEEDS----- 
- * (take a comment and work on it)
- * finish mouse (move) click event
- */

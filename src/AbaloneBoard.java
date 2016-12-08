@@ -17,7 +17,7 @@ public class AbaloneBoard extends GridPane {
 	private final Color PIECEOUT = Color.BLUE;
 	static ArrayList<Cell> clickedCells = new ArrayList<Cell>(3);
 
-	// Board should create master board & add all Cell and Piece to it TODO
+	// Board creates master board & adds all Cell and Piece to it
 	public AbaloneBoard(){
 		// position the grid in the center
 		setAlignment(Pos.CENTER);
@@ -69,6 +69,8 @@ public class AbaloneBoard extends GridPane {
 						((j==5 && (i==0 || i==20)))) {
 					boardCells[i][j] = new Cell(i,j);
 					boardCells[i][j].setPiece(PIECEOUT);
+					boardCells[i][j].setCanBeClicked(false);
+					add(boardCells[i][j],i,j);
 				} else {
 					boardCells[i][j] = null;
 				}
@@ -79,25 +81,26 @@ public class AbaloneBoard extends GridPane {
 	// fills a clickedCells ArrayList to keep track of currently clicked cells -> clear if more than 3 clicked
 	public static boolean recordClickedCell(Cell cell){
 		// if cell clicked is first cell clicked -> always return true
-		if(clickedCells.size() == 0){
-			clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
+			clickedCells.add(boardCells[cell.getCellPos()[0]][cell.getCellPos()[1]]);
 			return true;
-		}
+	}
+	
+	// is the clicked cell a neighbour
+	public static boolean isClickedCellANeighbour(Cell cell){
+		if(clickedCells.size() == 0) return true;
+		// if this is the third clicked cell, make sure it is in line
 		if(thirdPieceInLine(cell)){
-
 			// ensure shift-clicked cell is a neighbour of at least one previously clicked cell
 			for (int i = 0; i < clickedCells.size(); i++){
-				Cell[] cellNeighbours = clickedCells.get(i).getAllNeighbours();
+				Cell[] cellNeighbours = clickedCells.get(i).getAllNeighbouringCells();
 				for (int j = 0; j < cellNeighbours.length; j++){
 					if (cellNeighbours[j] == cell){
-
 						// select cell
 						if(clickedCells.size() < 3) {
-							clickedCells.add(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]);
 							return true;
 						} else {
 							// this is to ignore the 4th click and 
-							boardCells[getCoords(cell)[0]][getCoords(cell)[1]].clear();
+							boardCells[cell.getCellPos()[0]][cell.getCellPos()[1]].clear();
 							// clear all cells -- moved to method to use in other classes
 							clearAllClickedCells();
 							// Trim it to Size 0
@@ -114,8 +117,8 @@ public class AbaloneBoard extends GridPane {
 	// checks if third piece is in line with first and second
 	public static boolean thirdPieceInLine(Cell thirdCell){
 		if(clickedCells.size()==1) return true; // safety
-		Cell[] cellNeighboursOfFirstPiece = clickedCells.get(0).getAllNeighbours(); // Store all neighbours of first cell
-		Cell[] cellNeighboursOfSecondPiece = clickedCells.get(1).getAllNeighbours(); // Store all neighbours of second cell
+		Cell[] cellNeighboursOfFirstPiece = clickedCells.get(0).getAllNeighbouringCells(); // Store all neighbours of first cell
+		Cell[] cellNeighboursOfSecondPiece = clickedCells.get(1).getAllNeighbouringCells(); // Store all neighbours of second cell
 
 		// add to end of second piece
 		for (int i = 0; i < cellNeighboursOfFirstPiece.length; i++){			// for all i length of neighbours of first piece
@@ -143,6 +146,32 @@ public class AbaloneBoard extends GridPane {
 		}
 		return false;
 	}
+	
+	// Check if cell clicked is the middle cell
+	public static boolean isMiddleCell(Cell cell){
+		if(clickedCells.size() != 3) return false; // must be 3 cells clicked
+		Cell[] cellNeighboursOfFirstPiece = clickedCells.get(0).getAllNeighbouringCells(); // Store all neighbours of first cell
+		Cell[] cellNeighboursOfSecondPiece = clickedCells.get(1).getAllNeighbouringCells(); // Store all neighbours of second cell
+		Cell[] cellNeighboursOfThirdPiece = clickedCells.get(2).getAllNeighbouringCells(); // Store all neighbours of third cell
+		
+		// Checking if given cell is a neighbour of two other clicked cells (must be middle piece)
+		for (int i = 0; i < cellNeighboursOfFirstPiece.length; i++){
+			for (int j = 0; j < cellNeighboursOfSecondPiece.length; j++){
+				if(cell == cellNeighboursOfFirstPiece[i] && cell == cellNeighboursOfSecondPiece[j]) return true;
+			}
+		}
+		for (int i = 0; i < cellNeighboursOfFirstPiece.length; i++){
+			for (int j = 0; j < cellNeighboursOfThirdPiece.length; j++){
+				if(cell == cellNeighboursOfFirstPiece[i] && cell == cellNeighboursOfThirdPiece[j]) return true;
+			}
+		}
+		for (int i = 0; i < cellNeighboursOfSecondPiece.length; i++){
+			for (int j = 0; j < cellNeighboursOfThirdPiece.length; j++){
+				if(cell == cellNeighboursOfSecondPiece[i] && cell == cellNeighboursOfThirdPiece[j]) return true;
+			}
+		}
+		return false;
+	}
 
 	// ensure active pieces are same as new clicked piece
 	public static boolean isAllActivePiecesSameColor(Cell cell){
@@ -159,7 +188,7 @@ public class AbaloneBoard extends GridPane {
 		// sanity check though probably not necessary as isClicked is kind of handling this
 		if(clickedCells.size() > 0) {
 			// remove the cell from the ArrayList
-			clickedCells.remove(clickedCells.indexOf(boardCells[getCoords(cell)[0]][getCoords(cell)[1]]));
+			clickedCells.remove(clickedCells.indexOf(boardCells[cell.getCellPos()[0]][cell.getCellPos()[1]]));
 			// Trim the size of the array
 			clickedCells.trimToSize();
 		}
@@ -189,20 +218,6 @@ public class AbaloneBoard extends GridPane {
 	// return reference to a cell at x,y location
 	public static Cell getCell(int x, int y) {
 		return boardCells[x][y];			
-	}
-
-	// helper method to get cell coordinations from getUserData(), might be useful at later stage
-	public static int[] getCoords(Cell cell) {
-		int[] coords = new int[2];
-		coords[0] = Integer.parseInt(cell.getUserData().toString().split(",")[0]);
-		coords[1] = Integer.parseInt(cell.getUserData().toString().split(",")[1]);
-
-		return coords;
-	}
-
-	// get piece in a given cell
-	public Color getCurrentPieceInCell(int i, int j){
-		return boardCells[i][j].getCurrentPiece();
 	}
 }
 
