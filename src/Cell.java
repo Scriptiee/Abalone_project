@@ -76,12 +76,16 @@ public class Cell extends Pane {
 				clear();
 			}
 		} // IF CELL IS NOT ALREADY CLICKED
-		else if (AbaloneBoard.isAllActivePiecesSameColor(this)){	// check if active piece type = new active piece type
-			if (AbaloneBoard.isClickedCellANeighbour(this)){		// check if cell a neighbour of previous click
-				if (AbaloneBoard.recordClickedCell(this)){			// record click in AbaloneBoard
-					if(!isClicked){
-						getChildren().add(clickedGraphic);
-						isClicked = !isClicked;
+		else if (this.getCurrentPiece() != EMPTY){
+			if(AbaloneBoard.isAllActivePiecesSameColor(this)){	// check if active piece type = new active piece type
+				if (AbaloneBoard.isClickedCellANeighbour(this)){		// check if cell a neighbour of previous click
+					if (AbaloneBoard.recordClickedCell(this)){			// record click in AbaloneBoard
+						if(!isClicked){
+
+							getChildren().add(clickedGraphic);
+							isClicked = !isClicked;
+
+						}
 					}
 				}
 			}
