@@ -19,7 +19,7 @@ public class Abalone extends Application {
 	BorderPane border = new BorderPane();
 	// Game score to be held in this one could replace with VBox tbh, no need for flow pane unless we will introduce 4 player variant
 	FlowPane gamescore = new FlowPane();
-	// The actuall board
+	// The actual board
 	AbaloneBoard abaloneBoard = new AbaloneBoard();
 	
 	// Overridden init method
@@ -35,7 +35,7 @@ public class Abalone extends Application {
 		hexBg.getChildren().add(hex);
 		// add board on top of that
 		hexBg.getChildren().add(abaloneBoard);
-//		hexBg.setStyle("-fx-border-style: solid inside;"); // debug code 
+		hexBg.setStyle("-fx-border-style: solid;"); // debug code 
 		gamescore.setStyle("-fx-background-color: DAE6F3;"); // debug code for easier visualisation
 		gamescore.setPrefSize(300, border.getHeight()); // arbitary size cuz why not
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane

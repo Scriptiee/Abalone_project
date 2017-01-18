@@ -136,24 +136,30 @@ public class MovementAndPushing {
 					}
 				}
 
-		// IF PLAYER IS BIGGER -> MOVE ALL PIECES
-		if (playerWeight > enemyWeight){
-			// Update score if pushing out of board
-			isPieceOut(enemyCellNeighbours[direction], true);
-			// Remove all pieces in old position
-			for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
-			for (int i = 0; i < allEnemyCells.size(); i++) allEnemyCells.get(i).setPiece(EMPTY);
-
-			// Set new player positions
-			for (int i = 0; i < allClickedCells.size(); i++){
-				move(allClickedCells.get(i), activeCellsColor);
+			// IF PLAYER IS BIGGER -> MOVE ALL PIECES
+			if (playerWeight > enemyWeight){
+				
+				Cell lastCellType = null;
+				// Update score and take note of cell about to be pushed out of board
+				if(isPieceOut(enemyCellNeighbours[direction], true)){
+					lastCellType = enemyCellNeighbours[direction];
+				}
+				// Remove all pieces in old position
+				for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
+				for (int i = 0; i < allEnemyCells.size(); i++) allEnemyCells.get(i).setPiece(EMPTY);
+	
+				// Set new player positions
+				for (int i = 0; i < allClickedCells.size(); i++){
+					move(allClickedCells.get(i), activeCellsColor);
+				}
+	
+				// Set new enemy positions
+				for (int i = 0; i < allEnemyCells.size(); i++){
+					move(allEnemyCells.get(i), enemyCellsColor);
+				}
+				// Make cell that just got pushed out a PIECEOUT piece
+				if(lastCellType != null) lastCellType.setPiece(PIECEOUT);
 			}
-
-			// Set new enemy positions
-			for (int i = 0; i < allEnemyCells.size(); i++){
-				move(allEnemyCells.get(i), enemyCellsColor);
-			}
-		}
 		}
 		// unclick all cells once loop ends
 		AbaloneBoard.clearAllClickedCells();
@@ -178,11 +184,8 @@ public class MovementAndPushing {
 	/* GETTERS / SETTERS */
 	// Set enemyCellsColor Color
 	public static void setEnemyColor(Color playerColor){
-		if (playerColor == PLAYER1){
-			enemyCellsColor = PLAYER2;
-		} else {
-			enemyCellsColor = PLAYER1;
-		}
+		if (playerColor == PLAYER1) enemyCellsColor = PLAYER2;
+		else enemyCellsColor = PLAYER1;
 	}
 
 	// returns the direction piece will move given mouse click
@@ -200,7 +203,7 @@ public class MovementAndPushing {
 				}
 			}
 		}
-		return 7; // error
+		return 7; // "error" in other words
 	}
 
 	// handles if the given cell is a PIECEOUT
@@ -210,6 +213,7 @@ public class MovementAndPushing {
 			else {
 				GameLogic.addScore(activeCellsColor);
 				UI.UpdateScore();
+				return true;
 			}
 		}
 		return false;

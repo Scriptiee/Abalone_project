@@ -81,10 +81,8 @@ public class Cell extends Pane {
 				if (AbaloneBoard.isClickedCellANeighbour(this)){		// check if cell a neighbour of previous click
 					if (AbaloneBoard.recordClickedCell(this)){			// record click in AbaloneBoard
 						if(!isClicked){
-
 							getChildren().add(clickedGraphic);
 							isClicked = !isClicked;
-
 						}
 					}
 				}

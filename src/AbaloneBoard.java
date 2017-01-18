@@ -11,10 +11,10 @@ public class AbaloneBoard extends GridPane {
 	// private vars for the class
 	// array of cells 
 	private static Cell[][] boardCells = new Cell[21][11];
-	private final Color EMPTY = Color.TRANSPARENT;
-	private final Color PLAYER1 = Color.WHITE;
-	private final Color PLAYER2 = Color.BLACK;
-	private final Color PIECEOUT = Color.BLUE;
+	private final static Color EMPTY = Color.TRANSPARENT;
+	private final static Color PLAYER1 = Color.WHITE;
+	private final static Color PLAYER2 = Color.BLACK;
+	private final static Color PIECEOUT = Color.BLUE;
 	static ArrayList<Cell> clickedCells = new ArrayList<Cell>(3);
 
 	// Board creates master board & adds all Cell and Piece to it
@@ -218,6 +218,26 @@ public class AbaloneBoard extends GridPane {
 	// return reference to a cell at x,y location
 	public static Cell getCell(int x, int y) {
 		return boardCells[x][y];			
+	}
+	
+	// freeze the board
+	public static void freezeGame(){
+		for (int i = 0; i < boardCells.length; i++){
+			for (int j = 0; j < boardCells[i].length; j++){
+				// first and last row
+				if(((j==1 || j == 9) && i > 5 && i < 15 && i%2==0) ||
+						// second and second last row
+						((j==2 || j==8) && i >4 && i < 16 && i%2!=0) ||
+						// third and seventh row
+						((j==3 || j==7) && i >3 && i <17 && i%2==0) ||
+						// fourth and sixth row
+						((j==4 || j==6) && i >2 && i<18 && i%2!=0) ||
+						// center row
+						(j==5 && i>1 && i<19 && i%2==0)) {
+							boardCells[i][j].setCanBeClicked(false);
+				}
+			}
+		}
 	}
 }
 
