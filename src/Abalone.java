@@ -56,8 +56,14 @@ public class Abalone extends Application {
 		Pane p1 = new Pane();
 		p1.setId("p1");
 		p1Pane.getChildren().addAll(p1Pic, p1);
-				
 		p1Score.getChildren().add(new AnchorPane(p1Pane));
+
+		Circle p2Pic = new Circle(70);
+		StackPane p2Pane = new StackPane();
+		Pane p2 = new Pane();
+		p1.setId("p2");
+		p1Pane.getChildren().addAll(p2Pic, p2);
+		p2Score.getChildren().add(new AnchorPane(p2Pane));
 		
 		
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane

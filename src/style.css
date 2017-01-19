@@ -16,3 +16,8 @@
 	-fx-background-size: contain;
 	-fx-background-repeat: no-repeat;
 }
+#p2 {
+	-fx-background-image: url("/images/player2.png");
+	-fx-background-size: contain;
+	-fx-background-repeat: no-repeat;
+}
