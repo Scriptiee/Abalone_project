@@ -39,12 +39,12 @@ public class MovementAndPushing {
 		// check if cell to move to is an enemy piece
 		if ((AbaloneBoard.getCell(x, y).getCurrentPiece() != activeCellsColor) &&
 				AbaloneBoard.getCell(x, y).getCurrentPiece() != EMPTY){
-			System.out.println("Enemy Piece");
+			
 			tryPushEnemyPiece(x,y); // if true -> tryPush
 		} 
 		else // if cell != enemy piece
 		{
-			System.out.println("Not Enemy Piece");
+			
 			// Make sure at least one cell is highlighted
 			if(AbaloneBoard.getLastClickedCell()!=null) {
 				// method to check if all active cells can move
@@ -116,18 +116,18 @@ public class MovementAndPushing {
 			}
 
 		setEnemyColor(activeCellsColor); 
-			System.out.println("how many clicked pieces touch enemy " + howManyClickedPiecesTouchEnemy);
+			
 
 		if (howManyClickedPiecesTouchEnemy == 1){
-			System.out.println("enemy cell color: (getCurrentPiece) " + enemyCellNeighbours[direction].getCurrentPiece().hashCode());
-			System.out.println("enemy cell color: " + enemyCellsColor.hashCode());
-			System.out.println(enemyCellNeighbours[direction].getCurrentPiece() == enemyCellsColor);
-			System.out.println("direction: " + direction);
+			
+			
+			
+			
 			// FOR EVERY PIECE IN GIVEN DIRECTION THAT IS AN ENEMY -> ADD TO ENEMY WEIGHT
 			outerif:
 				if(enemyCellNeighbours[direction].getCurrentPiece() == enemyCellsColor){
 					enemyWeight = 1;
-					System.out.println("enemy cell color: " + enemyCellsColor);
+					
 					allEnemyCells.add(enemyCellNeighbours[direction]);
 
 					enemyCellNeighbours = enemyCellNeighbours[direction].getAllNeighbouringCells();	// Set new enemyCellNeighbours using next piece in the direction
@@ -144,7 +144,7 @@ public class MovementAndPushing {
 						}
 
 					}
-				System.out.println("End of Outerif");
+				
 				}
 
 			// IF PLAYER IS BIGGER -> MOVE ALL PIECES
@@ -172,7 +172,7 @@ public class MovementAndPushing {
 				if(lastCellType != null) lastCellType.setPiece(PIECEOUT);
 			}
 		}
-		System.out.println("Not Triggered");
+		
 		// unclick all cells once loop ends
 		AbaloneBoard.clearAllClickedCells();
 		allClickedCells.clear();

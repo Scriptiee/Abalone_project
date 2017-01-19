@@ -3,14 +3,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 //layout
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 public class Abalone extends Application {
@@ -23,8 +20,8 @@ public class Abalone extends Application {
 	BorderPane border = new BorderPane();
 	// Game score to be held in this one could replace with VBox tbh, no need for flow pane unless we will introduce 4 player variant
 	FlowPane gamescore = new FlowPane();
-	StackPane p1Score = new StackPane();
-	StackPane p2Score = new StackPane();
+	FlowPane p1Score = new FlowPane();
+	FlowPane p2Score = new FlowPane();
 	// The actual board
 	AbaloneBoard abaloneBoard = new AbaloneBoard();
 	
@@ -49,21 +46,13 @@ public class Abalone extends Application {
 		gamescore.setPrefSize(300, border.getHeight()); // arbitrary size cuz why not
 		gamescore.setVgap(60); 
 		gamescore.setHgap(15); 
-		gamescore.getChildren().add(p1Score);
-		gamescore.getChildren().add(p2Score);
-		Circle p1Pic = new Circle(60);
-		StackPane p1Pane = new StackPane();
-		Pane p1 = new Pane();
-		p1.setId("p1");
-		p1Pane.getChildren().addAll(p1Pic, p1);
-		p1Score.getChildren().add(new AnchorPane(p1Pane));
+		gamescore.getChildren().addAll(p1Score, p2Score);
+		
+		ScoreUi p1 = new ScoreUi(Color.ORANGE, "Player 1", "p1");
+		p1Score.getChildren().addAll(p1.getPic(), p1.getName(), p1.getLine());
 
-		Circle p2Pic = new Circle(60);
-		StackPane p2Pane = new StackPane();
-		Pane p2 = new Pane();
-		p2.setId("p2");
-		p2Pane.getChildren().addAll(p2Pic, p2);
-		p2Score.getChildren().add(new AnchorPane(p2Pane));
+		ScoreUi p2 = new ScoreUi(Color.VIOLET, "Player 2", "p2");
+		p2Score.getChildren().addAll(p2.getPic(), p2.getName(), p2.getLine());
 		
 		
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane
@@ -91,7 +80,7 @@ public class Abalone extends Application {
 	
 	// Overridden stop method
 	@Override public void stop(){
-		System.out.println("Game Closed");
+		System.out.print("Game Closed");
 	}
 	
 	// Entry point into our program to launch the JavaFX application

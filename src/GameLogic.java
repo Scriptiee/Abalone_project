@@ -4,8 +4,8 @@ public class GameLogic {
 	
 	// vars of the class
 	private final static Color EMPTY = Color.TRANSPARENT;
-	private final static Color PLAYER1 = Color.WHITE;
-	private final static Color PLAYER2 = Color.BLACK;
+	private final static Color PLAYER1 = Color.ORANGE;
+	private final static Color PLAYER2 = Color.VIOLET;
 	private final static Color PIECEOUT = Color.BLUE;
 	
 	public static int player1Score = 0;

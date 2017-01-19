@@ -17,3 +17,11 @@
 	-fx-background-size: contain;
 	-fx-background-repeat: no-repeat;
 }
+#Player1 {
+	-fx-font: 25px Tahoma;
+	-fx-text-fill: orange;
+}
+#Player2 {
+	-fx-font: 25px Tahoma;
+	-fx-text-fill: violet;
+}
