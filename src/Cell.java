@@ -9,7 +9,7 @@ public class Cell extends Pane {
 	// vars of the class
 	private int[] cellPos = new int[2];
 
-	private final Color EMPTY = Color.TRANSPARENT;
+	private final Color EMPTY = Color.web("#2139A6");
 	public boolean isClicked = false;
 	private boolean canBeClicked = true;
 	private Cell[] neighbours = new Cell[6];
@@ -24,14 +24,15 @@ public class Cell extends Pane {
 		cellPos[1] = j;
 
 		// Create cell shape here and add to Pane
-		render.setFill(Color.DARKGREY);
+		render.setFill(Color.web("#2139A6"));
 		render.setRadius(25);
+		render.setStroke(new Color(0,0,0,0.56));
 		getChildren().addAll(render);
 
 		// Colour used when a piece is clicked
-		clickedGraphic.setFill(new Color(1,1,0,0.5));
-		clickedGraphic.setStroke(Color.YELLOW);
-		clickedGraphic.setRadius(24); // 24 fixes jerky resizing of the board when clicking on a piece
+		clickedGraphic.setFill(new Color(0,0,0,0.2));
+		clickedGraphic.setStroke(Color.RED);
+		clickedGraphic.setRadius(25);  
 
 		// add a mouse clicked listener that will detect if shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {

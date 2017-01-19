@@ -12,8 +12,8 @@ public class AbaloneBoard extends GridPane {
 	// array of cells 
 	private static Cell[][] boardCells = new Cell[21][11];
 	private final static Color EMPTY = Color.TRANSPARENT;
-	private final static Color PLAYER1 = Color.WHITE;
-	private final static Color PLAYER2 = Color.BLACK;
+	private final static Color PLAYER1 = Color.web("#FFF97F");
+	private final static Color PLAYER2 = Color.web("#C17FFF");
 	private final static Color PIECEOUT = Color.BLUE;
 	static ArrayList<Cell> clickedCells = new ArrayList<Cell>(3);
 
@@ -70,7 +70,7 @@ public class AbaloneBoard extends GridPane {
 					boardCells[i][j] = new Cell(i,j);
 					boardCells[i][j].setPiece(PIECEOUT);
 					boardCells[i][j].setCanBeClicked(false);
-					add(boardCells[i][j],i,j);
+//					add(boardCells[i][j],i,j);
 				} else {
 					boardCells[i][j] = null;
 				}

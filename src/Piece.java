@@ -10,7 +10,7 @@ public class Piece extends Group{
 	// constructor for the class
 	public Piece(Color player) {
 		playerColour = player;
-		piece = new Circle(22);
+		piece = new Circle(25);
 		piece.setFill(playerColour);
 		getChildren().add(piece);
 	}

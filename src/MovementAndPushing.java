@@ -12,8 +12,8 @@ public class MovementAndPushing {
 	private static Color enemyCellsColor;
 
 	private final static Color EMPTY = Color.TRANSPARENT;
-	private final static Color PLAYER1 = Color.WHITE;
-	private final static Color PLAYER2 = Color.BLACK;
+	private final static Color PLAYER1 = Color.web("#FFF97F");
+	private final static Color PLAYER2 = Color.web("#C17FFF");
 	private final static Color PIECEOUT = Color.BLUE;
 
 	private final static int TOPLEFT = 0;
@@ -212,7 +212,7 @@ public class MovementAndPushing {
 			if(!shouldPushOut) return true;
 			else {
 				GameLogic.addScore(activeCellsColor);
-				UI.UpdateScore();
+//				UI.UpdateScore();
 				return true;
 			}
 		}

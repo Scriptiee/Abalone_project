@@ -1,12 +1,16 @@
 // base required imports
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 //layout
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 public class Abalone extends Application {
@@ -19,6 +23,8 @@ public class Abalone extends Application {
 	BorderPane border = new BorderPane();
 	// Game score to be held in this one could replace with VBox tbh, no need for flow pane unless we will introduce 4 player variant
 	FlowPane gamescore = new FlowPane();
+	StackPane p1Score = new StackPane();
+	StackPane p2Score = new StackPane();
 	// The actual board
 	AbaloneBoard abaloneBoard = new AbaloneBoard();
 	
@@ -35,9 +41,25 @@ public class Abalone extends Application {
 		hexBg.getChildren().add(hex);
 		// add board on top of that
 		hexBg.getChildren().add(abaloneBoard);
-		hexBg.setStyle("-fx-border-style: solid;"); // debug code 
-		gamescore.setStyle("-fx-background-color: DAE6F3;"); // debug code for easier visualisation
-		gamescore.setPrefSize(300, border.getHeight()); // arbitary size cuz why not
+		p1Score.getStyleClass().add("score");
+		p2Score.getStyleClass().add("score");
+		p1Score.setPrefSize(300, 300);
+		p2Score.setPrefSize(300, 300);
+		gamescore.setPadding(new Insets(15, 0, 15, 0)); 
+		gamescore.setPrefSize(300, border.getHeight()); // arbitrary size cuz why not
+		gamescore.setVgap(60); 
+		gamescore.setHgap(15); 
+		gamescore.getChildren().add(p1Score);
+		gamescore.getChildren().add(p2Score);
+		Circle p1Pic = new Circle(70);
+		StackPane p1Pane = new StackPane();
+		Pane p1 = new Pane();
+		p1.setId("p1");
+		p1Pane.getChildren().addAll(p1Pic, p1);
+				
+		p1Score.getChildren().add(new AnchorPane(p1Pane));
+		
+		
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane
 		border.setRight(gamescore); // add the gamescore to the right
 		// border.setTop(); <--- could add a menu there to restart game or what not
@@ -45,21 +67,16 @@ public class Abalone extends Application {
 	
 	// Overridden start method
 	@Override public void start(Stage primaryStage){
+		border.setId("border");
 		// hex colours 
-		hex.setStroke(Color.BLACK);
-		hex.setFill(Color.BLUE);
+		hex.setFill(Color.web("#2642BF"));
 		// set title, size, set scene and show
 		primaryStage.setTitle("JavaFX - Abalone Game");
-		// set size (some arbitary number I pulled out of my ass really, but seems to work pretty well
+		// set size (some arbitrary number I pulled out of my ass really, but seems to work pretty well
 		border.setPrefSize(1100, 700);
 		// PRETTY!!
-		border.setStyle("-fx-padding: 5;" +
-				"-fx-border-style: solid inside;" +
-				"-fx-border-width: 2;" +
-				"-fx-border-insets: 5;" +
-				"-fx-border-radius: 5;" +
-				"-fx-border-color: blue;");
 		Scene scene = new Scene(border);
+		scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 		primaryStage.setScene(scene);
 		// Disable resizing 
 		primaryStage.setResizable(false);
