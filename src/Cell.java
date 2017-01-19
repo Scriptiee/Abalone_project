@@ -9,7 +9,7 @@ public class Cell extends Pane {
 	// vars of the class
 	private int[] cellPos = new int[2];
 
-	private final Color EMPTY = Color.web("#2139A6");
+	private final Color EMPTY = Color.TRANSPARENT;
 	public boolean isClicked = false;
 	private boolean canBeClicked = true;
 	private Cell[] neighbours = new Cell[6];
@@ -149,6 +149,7 @@ public class Cell extends Pane {
 	// get piece currently in this cell
 	public Color getCurrentPiece(){
 		return aPiece.getPiece();
+		
 	}
 
 	// returns isClicked bool

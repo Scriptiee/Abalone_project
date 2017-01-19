@@ -1,15 +1,11 @@
 #border {
--fx-padding: 5;
--fx-border-style: solid inside;
--fx-border-width: 2;
--fx-border-insets: 5;
--fx-border-radius: 5;
+-fx-padding: 25;
 -fx-background-image: url("/images/bgr_tile.jpg");
 -fx-background-repeat: repeat;
 }
 
 .score {
-	-fx-background-color: rgb(255,255,255,0.4);
+	-fx-background-color: rgb(255,255,255,0.2);
 }
 #p1 {
 	-fx-background-image: url("/images/player1.png");

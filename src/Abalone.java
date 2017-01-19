@@ -51,18 +51,18 @@ public class Abalone extends Application {
 		gamescore.setHgap(15); 
 		gamescore.getChildren().add(p1Score);
 		gamescore.getChildren().add(p2Score);
-		Circle p1Pic = new Circle(70);
+		Circle p1Pic = new Circle(60);
 		StackPane p1Pane = new StackPane();
 		Pane p1 = new Pane();
 		p1.setId("p1");
 		p1Pane.getChildren().addAll(p1Pic, p1);
 		p1Score.getChildren().add(new AnchorPane(p1Pane));
 
-		Circle p2Pic = new Circle(70);
+		Circle p2Pic = new Circle(60);
 		StackPane p2Pane = new StackPane();
 		Pane p2 = new Pane();
-		p1.setId("p2");
-		p1Pane.getChildren().addAll(p2Pic, p2);
+		p2.setId("p2");
+		p2Pane.getChildren().addAll(p2Pic, p2);
 		p2Score.getChildren().add(new AnchorPane(p2Pane));
 		
 		
