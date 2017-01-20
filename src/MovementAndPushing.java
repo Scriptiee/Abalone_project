@@ -49,12 +49,21 @@ public class MovementAndPushing {
 			if(AbaloneBoard.getLastClickedCell()!=null) {
 				// method to check if all active cells can move
 				if(checkCanAllCellsMoveInDirection()){
+					// remove available move highlight graphic
+					for(int i = 0; i < allClickedCells.size(); i++){
+						Cell[] neighbours = allClickedCells.get(i).getAllNeighbouringCells();
+						for(int j = 0; j < 6; j++){
+							if (neighbours[j].hasAvailableMoveGraphic()) neighbours[j].removeAvailableMoveGraphic();
+						}
+					}
+					
 					// set all clicked cells to EMPTY
 					for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
 					// for every clicked cell -> move
 					for (int i = 0; i < allClickedCells.size(); i++){
 						move(allClickedCells.get(i), activeCellsColor);
 					}
+					
 					// unclick all clicked cells once loop ends
 					AbaloneBoard.clearAllClickedCells();
 				}
@@ -201,7 +210,7 @@ public class MovementAndPushing {
 	}
 
 	// returns the direction piece will move given mouse click
-	private static int getDirectionOfMovement(int x, int y){
+	public static int getDirectionOfMovement(int x, int y){
 		allClickedCells = AbaloneBoard.getAllClickedCells(); // Store all clicked cells
 		Cell moveToThisCell = AbaloneBoard.getCell(x, y); // Cell to move to
 
