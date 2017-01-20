@@ -224,7 +224,7 @@ public class MovementAndPushing {
 			if(!shouldPushOut) return true;
 			else {
 				GameLogic.addScore(activeCellsColor);
-				System.out.println(GameLogic.getScore(activeCellsColor));
+				Abalone.updateScore(activeCellsColor, GameLogic.getScore(activeCellsColor));
 				//				UI.UpdateScore();
 				return true;
 			}
