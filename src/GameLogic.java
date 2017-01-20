@@ -28,6 +28,7 @@ public class GameLogic {
 	}
 
 	public static void changeCurrentPlayer(){
+		SecondTimer.reset();
 		if(CURRENT_PLAYER == PLAYER1)CURRENT_PLAYER = PLAYER2;
 		else if(CURRENT_PLAYER == PLAYER2)CURRENT_PLAYER = PLAYER1;
 	}

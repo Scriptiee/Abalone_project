@@ -35,7 +35,6 @@ public class Abalone extends Application {
 		}
 	}
 	
-	
 	// Overridden init method
 	@Override public void init(){
 				// pints for the polygon class to create the hex shape (better way of doing that?)
@@ -67,6 +66,9 @@ public class Abalone extends Application {
 		
 		// set current player
 		GameLogic.setCurrentPlayer(Color.VIOLET);
+		
+		// start timer
+		SecondTimer.start();
 	}
 	
 	// Overridden start method
