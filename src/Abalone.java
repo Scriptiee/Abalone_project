@@ -33,7 +33,7 @@ public class Abalone extends Application {
 		} else {
 			p2.setScore(x);
 		}
-	}
+	}	
 	
 	// Overridden init method
 	@Override public void init(){
@@ -68,7 +68,7 @@ public class Abalone extends Application {
 		GameLogic.setCurrentPlayer(Color.VIOLET);
 		
 		// start timer
-		SecondTimer.start();
+//		SecondTimer.start();
 	}
 	
 	// Overridden start method
