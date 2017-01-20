@@ -48,15 +48,17 @@ public class Abalone extends Application {
 		gamescore.setHgap(15); 
 		gamescore.getChildren().addAll(p1Score, p2Score);
 		
-		ScoreUi p1 = new ScoreUi(Color.ORANGE, "Player 1", "p1");
-		p1Score.getChildren().addAll(p1.getPic(), p1.getName(), p1.getLine());
-
-		ScoreUi p2 = new ScoreUi(Color.VIOLET, "Player 2", "p2");
-		p2Score.getChildren().addAll(p2.getPic(), p2.getName(), p2.getLine());
-		
-		
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane
 		border.setRight(gamescore); // add the gamescore to the right
+
+		ScoreUi p2 = new ScoreUi(Color.VIOLET, "Player 2", "p2");
+		p2Score.getChildren().addAll(p2.getPic(), p2.getName(), p2.getLine(), p2.getScoreCard(), p2.getTimer());
+
+		ScoreUi p1 = new ScoreUi(Color.ORANGE, "Player 1", "p1");
+		p1Score.getChildren().addAll(p1.getPic(), p1.getName(), p1.getLine(), p1.getScoreCard(), p1.getTimer());
+
+		
+		
 		// border.setTop(); <--- could add a menu there to restart game or what not
 	}
 	

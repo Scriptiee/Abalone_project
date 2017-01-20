@@ -224,7 +224,8 @@ public class MovementAndPushing {
 			if(!shouldPushOut) return true;
 			else {
 				GameLogic.addScore(activeCellsColor);
-//				UI.UpdateScore();
+				System.out.println(GameLogic.getScore(activeCellsColor));
+				//				UI.UpdateScore();
 				return true;
 			}
 		}

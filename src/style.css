@@ -25,3 +25,11 @@
 	-fx-font: 25px Tahoma;
 	-fx-text-fill: violet;
 }
+#p1-score {
+	-fx-font: 100px Tahoma;
+	-fx-text-fill: orange;
+}
+#p2-score {
+	-fx-font: 100px Tahoma;
+	-fx-text-fill: violet;
+}

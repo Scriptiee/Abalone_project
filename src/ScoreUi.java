@@ -13,7 +13,10 @@ public class ScoreUi {
 	private Pane player = new Pane();
 	private Pane playerColorLine = new Pane();
 	private Label playerName = new Label();
-	private Polyline playerLine = new Polyline(50.0, 10.0, 250.0, 10.0);
+	private Polyline playerLine = new Polyline(25.0, 10.0, 275.0, 10.0);
+	private Pane scoreCard = new Pane();
+	private Label score = new Label();
+	private Label timer = new Label();
 	
 	public ScoreUi(Color c, String name, String id) {
 		picture.setFill(Color.TRANSPARENT);
@@ -25,6 +28,12 @@ public class ScoreUi {
 		player.setId(id);
 		playerPane.getChildren().addAll(picture, player);
 		playerPane.setPadding(new Insets(15,15,15,15));
+		score.setText("0");
+		score.setId(id+"-score");
+		scoreCard.setPrefSize(150, 100);
+		scoreCard.getChildren().add(score);
+		timer.setText("120");
+		timer.setId(name.replaceAll(" ", ""));
 	}
 	
 	public StackPane getPic() {
@@ -39,5 +48,19 @@ public class ScoreUi {
 		return playerColorLine;
 	}
 	
+	public Pane getScoreCard() {
+		return scoreCard;
+	}
+	
+	public void setScore(int x) {
+		score.setText(String.valueOf(x));
+	}
+	public Label getTimer() {
+		return timer;
+	}
+	
+	public void setTimer(int x) {
+		timer.setText(String.valueOf(x));
+	}
 	
 }
