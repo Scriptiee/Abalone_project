@@ -70,6 +70,9 @@ public class Cell extends Pane {
 					}
 
 				}
+				if (event.getButton().toString() == "SECONDARY"){
+					
+				}
 			}
 		});
 	}
