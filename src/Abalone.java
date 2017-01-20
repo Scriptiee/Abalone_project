@@ -1,11 +1,8 @@
 // base required imports
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 //layout
 import javafx.scene.layout.FlowPane;
@@ -27,8 +24,6 @@ public class Abalone extends Application {
 	FlowPane p2Score = new FlowPane();
 	// The actual board
 	AbaloneBoard abaloneBoard = new AbaloneBoard();
-	
-	SecondTimer timer = new SecondTimer();
 	
 	// Overridden init method
 	@Override public void init(){
@@ -63,12 +58,10 @@ public class Abalone extends Application {
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane
 		border.setRight(gamescore); // add the gamescore to the right
 		// border.setTop(); <--- could add a menu there to restart game or what not
-		// set starting player
-		GameLogic.setCurrentPlayer(Color.VIOLET);
 	}
 	
 	// Overridden start method
-	@Override public void start(Stage primaryStage) throws InterruptedException{
+	@Override public void start(Stage primaryStage){
 		border.setId("border");
 		// hex colours 
 		hex.setFill(Color.web("#2642BF"));
@@ -83,7 +76,6 @@ public class Abalone extends Application {
 		// Disable resizing 
 		primaryStage.setResizable(false);
 		primaryStage.show();
-		timer.start();
 	}
 	
 	// Overridden stop method

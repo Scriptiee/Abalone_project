@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -12,7 +10,6 @@ public class Cell extends Pane {
 	private int[] cellPos = new int[2];
 
 	private final Color EMPTY = Color.TRANSPARENT;
-	private final Color PIECEOUT = Color.BLUE;
 	public boolean isClicked = false;
 	private boolean canBeClicked = true;
 	private Cell[] neighbours = new Cell[6];
@@ -20,7 +17,6 @@ public class Cell extends Pane {
 	private Circle render = new Circle();
 	private Piece aPiece = new Piece(EMPTY);
 	private Circle clickedGraphic = new Circle();
-	private Circle availableMoveGraphic = new Circle();
 
 	public Cell(int i, int j) {
 		// Set position of cell in array for reference
@@ -38,12 +34,6 @@ public class Cell extends Pane {
 		clickedGraphic.setStroke(Color.RED);
 		clickedGraphic.setRadius(25);  
 
-
-		// Colour used when highlighting available moves
-		availableMoveGraphic.setFill(new Color(1,0,0,0.5));
-		availableMoveGraphic.setStroke(Color.RED);
-		availableMoveGraphic.setRadius(24); 
-
 		// add a mouse clicked listener that will detect if shift is pressed or not, and add or move pieces
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 			// overridden handle method
@@ -52,27 +42,12 @@ public class Cell extends Pane {
 				if (event.getButton().toString() == "PRIMARY"){
 					if(canBeClicked){
 						if(event.isShiftDown()){ 							// IF shift key is pressed
-							if(getCurrentPiece() == GameLogic.getCurrentPlayer()){ // IF is current player
-								isClicked(i, j);								// -> click cell
-							}
+							isClicked(i, j);								// -> click cell
 						} else if(!event.isShiftDown()){ 					// ELSE IF shift key is not pressed
-
-							if(AbaloneBoard.getAllClickedCells().size() > 0){// -> if at least one piece clicked
-								// remove all available move highlight graphic
-								for(int i = 0; i < AbaloneBoard.getAllClickedCells().size(); i++){
-									Cell[] neighbours = AbaloneBoard.getAllClickedCells().get(i).getAllNeighbouringCells();
-									for(int j = 0; j < 6; j++){
-										if (neighbours[j].hasAvailableMoveGraphic()) neighbours[j].removeAvailableMoveGraphic();
-									}
-								}
+							if(AbaloneBoard.getAllClickedCells().size() > 0)// -> if at least one piece clicked
 								MovementAndPushing.movePiece(i, j);			// --> move piece
-							}
 						}
 					}
-
-				}
-				if (event.getButton().toString() == "SECONDARY"){
-					
 				}
 			}
 		});
@@ -98,24 +73,17 @@ public class Cell extends Pane {
 			if(AbaloneBoard.isMiddleCell(this)){					// is cell the middle of 3
 				AbaloneBoard.clearAllClickedCells();				// true -> remove all cells
 			} else {												// false -> remove clicked cell
-				for (int i = 0; i < AbaloneBoard.clickedCells.size(); i++){
-					Cell[] thisCellNeighbours = AbaloneBoard.clickedCells.get(i).getAllNeighbouringCells();
-					for (int j = 0; j < thisCellNeighbours.length; j++){
-						thisCellNeighbours[j].removeAvailableMoveGraphic();
-					}
-				}
 				AbaloneBoard.untrackClickedCell(this);
 				clear();
 			}
 		} // IF CELL IS NOT ALREADY CLICKED
 		else if (this.getCurrentPiece() != EMPTY){
-			if(AbaloneBoard.isAllActivePiecesSameColor(this)){			// check if active piece type = new active piece type
+			if(AbaloneBoard.isAllActivePiecesSameColor(this)){	// check if active piece type = new active piece type
 				if (AbaloneBoard.isClickedCellANeighbour(this)){		// check if cell a neighbour of previous click
 					if (AbaloneBoard.recordClickedCell(this)){			// record click in AbaloneBoard
 						if(!isClicked){
 							getChildren().add(clickedGraphic);
 							isClicked = !isClicked;
-							highlightEmptyNeighbours();
 						}
 					}
 				}
@@ -124,66 +92,6 @@ public class Cell extends Pane {
 			// if a different colour piece is shift-clicked -> wipe
 			AbaloneBoard.clearAllClickedCells();
 		}
-	}
-
-	// highlight places the player can move to
-	public void highlightEmptyNeighbours() {
-		ArrayList<Cell> allClickedCells = AbaloneBoard.clickedCells;
-		Cell[] neighbouringCells = getAllNeighbouringCells();
-		int direction = 7;
-
-		// if more than 1 piece selected set the direction they are in
-		if(allClickedCells.size() > 1) direction = MovementAndPushing.getDirectionOfMovement(cellPos[0], cellPos[1]);
-
-		// IF ONLY ONE PIECE IS CLICKED, APPLY HIGHLIGHT
-		if (direction == 7){
-			for(int i = 0; i < 6; i++){
-				if(neighbouringCells[i].getCurrentPiece() == EMPTY 
-						|| (neighbouringCells[i].getCurrentPiece() != aPiece.getPiece()) 
-						&& neighbouringCells[i].getCurrentPiece() != PIECEOUT){
-					neighbouringCells[i].setAvailableMoveGraphic();
-				}
-			}
-		} else if(allClickedCells.size() == 2){ // IF TWO PIECES CLICKED...
-			neighbouringCells = allClickedCells.get(1).getAllNeighbouringCells();
-			for (int i = 0; i < neighbouringCells.length; i++){
-				if (!neighbouringCells[i].hasAvailableMoveGraphic()){
-					if(neighbouringCells[i].getCurrentPiece() == EMPTY 
-							|| (neighbouringCells[i].getCurrentPiece() != aPiece.getPiece()) 
-							&& neighbouringCells[i].getCurrentPiece() != PIECEOUT){
-						neighbouringCells[i].setAvailableMoveGraphic();
-					}
-				}
-			}
-		} else if(allClickedCells.size() == 3){ // IF THREE PIECES CLICKED...
-			neighbouringCells = allClickedCells.get(2).getAllNeighbouringCells();
-			for (int i = 0; i < neighbouringCells.length; i++){
-				if (!neighbouringCells[i].hasAvailableMoveGraphic()){
-					if(neighbouringCells[i].getCurrentPiece() == EMPTY 
-							|| (neighbouringCells[i].getCurrentPiece() != aPiece.getPiece()) 
-							&& neighbouringCells[i].getCurrentPiece() != PIECEOUT){
-						neighbouringCells[i].setAvailableMoveGraphic();
-					}
-				}
-			}
-		}  
-	}
-
-	public void setAvailableMoveGraphic(){
-		getChildren().add(availableMoveGraphic);
-	}
-
-	public void removeAvailableMoveGraphic(){
-		getChildren().remove(availableMoveGraphic);
-	}
-
-	public boolean hasAvailableMoveGraphic(){
-		for (int i = 0; i < getChildren().size(); i++){
-			if(getChildren().get(i) == availableMoveGraphic){ 
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// set cell unclicked & remove highlight
@@ -241,7 +149,7 @@ public class Cell extends Pane {
 	// get piece currently in this cell
 	public Color getCurrentPiece(){
 		return aPiece.getPiece();
-
+		
 	}
 
 	// returns isClicked bool

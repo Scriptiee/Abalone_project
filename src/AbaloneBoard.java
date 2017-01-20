@@ -1,11 +1,8 @@
 
 import java.util.ArrayList;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -15,8 +12,8 @@ public class AbaloneBoard extends GridPane {
 	// array of cells 
 	private static Cell[][] boardCells = new Cell[21][11];
 	private final static Color EMPTY = Color.TRANSPARENT;
-	//	private final static Color PLAYER1 = Color.web("#FFF97F");
-	//	private final static Color PLAYER2 = Color.web("#C17FFF");
+//	private final static Color PLAYER1 = Color.web("#FFF97F");
+//	private final static Color PLAYER2 = Color.web("#C17FFF");
 	private final static Color PLAYER1 = Color.ORANGE;
 	private final static Color PLAYER2 = Color.VIOLET;
 	private final static Color PIECEOUT = Color.BLUE;
@@ -75,7 +72,7 @@ public class AbaloneBoard extends GridPane {
 					boardCells[i][j] = new Cell(i,j);
 					boardCells[i][j].setPiece(PIECEOUT);
 					boardCells[i][j].setCanBeClicked(false);
-					//					add(boardCells[i][j],i,j);
+//					add(boardCells[i][j],i,j);
 				} else {
 					boardCells[i][j] = null;
 				}
@@ -86,10 +83,10 @@ public class AbaloneBoard extends GridPane {
 	// fills a clickedCells ArrayList to keep track of currently clicked cells -> clear if more than 3 clicked
 	public static boolean recordClickedCell(Cell cell){
 		// if cell clicked is first cell clicked -> always return true
-		clickedCells.add(boardCells[cell.getCellPos()[0]][cell.getCellPos()[1]]);
-		return true;
+			clickedCells.add(boardCells[cell.getCellPos()[0]][cell.getCellPos()[1]]);
+			return true;
 	}
-
+	
 	// is the clicked cell a neighbour
 	public static boolean isClickedCellANeighbour(Cell cell){
 		if(clickedCells.size() == 0) return true;
@@ -151,14 +148,14 @@ public class AbaloneBoard extends GridPane {
 		}
 		return false;
 	}
-
+	
 	// Check if cell clicked is the middle cell
 	public static boolean isMiddleCell(Cell cell){
 		if(clickedCells.size() != 3) return false; // must be 3 cells clicked
 		Cell[] cellNeighboursOfFirstPiece = clickedCells.get(0).getAllNeighbouringCells(); // Store all neighbours of first cell
 		Cell[] cellNeighboursOfSecondPiece = clickedCells.get(1).getAllNeighbouringCells(); // Store all neighbours of second cell
 		Cell[] cellNeighboursOfThirdPiece = clickedCells.get(2).getAllNeighbouringCells(); // Store all neighbours of third cell
-
+		
 		// Checking if given cell is a neighbour of two other clicked cells (must be middle piece)
 		for (int i = 0; i < cellNeighboursOfFirstPiece.length; i++){
 			for (int j = 0; j < cellNeighboursOfSecondPiece.length; j++){
@@ -224,7 +221,7 @@ public class AbaloneBoard extends GridPane {
 	public static Cell getCell(int x, int y) {
 		return boardCells[x][y];			
 	}
-
+	
 	// freeze the board
 	public static void freezeGame(){
 		for (int i = 0; i < boardCells.length; i++){
@@ -239,7 +236,7 @@ public class AbaloneBoard extends GridPane {
 						((j==4 || j==6) && i >2 && i<18 && i%2!=0) ||
 						// center row
 						(j==5 && i>1 && i<19 && i%2==0)) {
-					boardCells[i][j].setCanBeClicked(false);
+							boardCells[i][j].setCanBeClicked(false);
 				}
 			}
 		}
