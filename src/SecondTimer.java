@@ -21,7 +21,6 @@ public class SecondTimer {
             @Override
             public void run() {
                 secondsLeft--;
-                System.out.print(secondsLeft);
                 // TODO PRINT secondsLeft to ScoreUi
                 if (secondsLeft == 0) {
                     timer.cancel();
@@ -33,7 +32,7 @@ public class SecondTimer {
     }
 
     public void setCountDown(int seconds) {
-        this.countDown = seconds;
+        countDown = seconds;
     }
 
     public int getSecondsLeft() {
