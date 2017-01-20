@@ -12,8 +12,8 @@ public class MovementAndPushing {
 	private static Color enemyCellsColor;
 
 	private final static Color EMPTY = Color.TRANSPARENT;
-//	private final static Color PLAYER1 = Color.web("#FFF97F");
-//	private final static Color PLAYER2 = Color.web("#C17FFF");
+	//	private final static Color PLAYER1 = Color.web("#FFF97F");
+	//	private final static Color PLAYER2 = Color.web("#C17FFF");
 	private final static Color PLAYER1 = Color.ORANGE;
 	private final static Color PLAYER2 = Color.VIOLET;
 	private final static Color PIECEOUT = Color.BLUE;
@@ -39,31 +39,24 @@ public class MovementAndPushing {
 		// check if cell to move to is an enemy piece
 		if ((AbaloneBoard.getCell(x, y).getCurrentPiece() != activeCellsColor) &&
 				AbaloneBoard.getCell(x, y).getCurrentPiece() != EMPTY){
-			
+
 			tryPushEnemyPiece(x,y); // if true -> tryPush
-		} 
+
+		}
 		else // if cell != enemy piece
 		{
-			
 			// Make sure at least one cell is highlighted
 			if(AbaloneBoard.getLastClickedCell()!=null) {
 				// method to check if all active cells can move
 				if(checkCanAllCellsMoveInDirection()){
-					// remove available move highlight graphic
-					for(int i = 0; i < allClickedCells.size(); i++){
-						Cell[] neighbours = allClickedCells.get(i).getAllNeighbouringCells();
-						for(int j = 0; j < 6; j++){
-							if (neighbours[j].hasAvailableMoveGraphic()) neighbours[j].removeAvailableMoveGraphic();
-						}
-					}
-					
+					// change player
+					GameLogic.changeCurrentPlayer();
 					// set all clicked cells to EMPTY
 					for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
 					// for every clicked cell -> move
 					for (int i = 0; i < allClickedCells.size(); i++){
 						move(allClickedCells.get(i), activeCellsColor);
 					}
-					
 					// unclick all clicked cells once loop ends
 					AbaloneBoard.clearAllClickedCells();
 				}
@@ -125,18 +118,14 @@ public class MovementAndPushing {
 			}
 
 		setEnemyColor(activeCellsColor); 
-			
+
 
 		if (howManyClickedPiecesTouchEnemy == 1){
-			
-			
-			
-			
 			// FOR EVERY PIECE IN GIVEN DIRECTION THAT IS AN ENEMY -> ADD TO ENEMY WEIGHT
 			outerif:
 				if(enemyCellNeighbours[direction].getCurrentPiece() == enemyCellsColor){
 					enemyWeight = 1;
-					
+
 					allEnemyCells.add(enemyCellNeighbours[direction]);
 
 					enemyCellNeighbours = enemyCellNeighbours[direction].getAllNeighbouringCells();	// Set new enemyCellNeighbours using next piece in the direction
@@ -153,35 +142,36 @@ public class MovementAndPushing {
 						}
 
 					}
-				
+
 				}
 
-			// IF PLAYER IS BIGGER -> MOVE ALL PIECES
-			if (playerWeight > enemyWeight){
-				
-				Cell lastCellType = null;
-				// Update score and take note of cell about to be pushed out of board
-				if(isPieceOut(enemyCellNeighbours[direction], true)){
-					lastCellType = enemyCellNeighbours[direction];
-				}
-				// Remove all pieces in old position
-				for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
-				for (int i = 0; i < allEnemyCells.size(); i++) allEnemyCells.get(i).setPiece(EMPTY);
-	
-				// Set new player positions
-				for (int i = 0; i < allClickedCells.size(); i++){
-					move(allClickedCells.get(i), activeCellsColor);
-				}
-	
-				// Set new enemy positions
-				for (int i = 0; i < allEnemyCells.size(); i++){
-					move(allEnemyCells.get(i), enemyCellsColor);
-				}
-				// Make cell that just got pushed out a PIECEOUT piece
-				if(lastCellType != null) lastCellType.setPiece(PIECEOUT);
+		// IF PLAYER IS BIGGER -> MOVE ALL PIECES
+		if (playerWeight > enemyWeight){
+			// change player
+			GameLogic.changeCurrentPlayer();
+			Cell lastCellType = null;
+			// Update score and take note of cell about to be pushed out of board
+			if(isPieceOut(enemyCellNeighbours[direction], true)){
+				lastCellType = enemyCellNeighbours[direction];
 			}
+			// Remove all pieces in old position
+			for (int i = 0; i < allClickedCells.size(); i++) allClickedCells.get(i).setPiece(EMPTY);
+			for (int i = 0; i < allEnemyCells.size(); i++) allEnemyCells.get(i).setPiece(EMPTY);
+
+			// Set new player positions
+			for (int i = 0; i < allClickedCells.size(); i++){
+				move(allClickedCells.get(i), activeCellsColor);
+			}
+
+			// Set new enemy positions
+			for (int i = 0; i < allEnemyCells.size(); i++){
+				move(allEnemyCells.get(i), enemyCellsColor);
+			}
+			// Make cell that just got pushed out a PIECEOUT piece
+			if(lastCellType != null) lastCellType.setPiece(PIECEOUT);
 		}
-		
+		}
+
 		// unclick all cells once loop ends
 		AbaloneBoard.clearAllClickedCells();
 		allClickedCells.clear();
@@ -233,7 +223,7 @@ public class MovementAndPushing {
 			if(!shouldPushOut) return true;
 			else {
 				GameLogic.addScore(activeCellsColor);
-//				UI.UpdateScore();
+				//				UI.UpdateScore();
 				return true;
 			}
 		}

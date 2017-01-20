@@ -21,8 +21,7 @@ public class Piece extends Group{
 	}
 }
 
-/* -----STILL NEEDS----- 
+/* -----STILL NEEDS----- TODO
  * (take a comment and work on it)
- * resize method
  * finish constructor method
 */

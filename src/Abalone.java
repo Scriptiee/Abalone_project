@@ -58,6 +58,8 @@ public class Abalone extends Application {
 		border.setCenter(hexBg); // set the Pane as a center of our BorderPane
 		border.setRight(gamescore); // add the gamescore to the right
 		// border.setTop(); <--- could add a menu there to restart game or what not
+		// set starting player
+		GameLogic.setCurrentPlayer(Color.VIOLET);
 	}
 	
 	// Overridden start method

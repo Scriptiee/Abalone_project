@@ -37,7 +37,7 @@ public class Cell extends Pane {
 		clickedGraphic.setFill(new Color(0,0,0,0.2));
 		clickedGraphic.setStroke(Color.RED);
 		clickedGraphic.setRadius(25);  
-		
+
 
 		// Colour used when highlighting available moves
 		availableMoveGraphic.setFill(new Color(1,0,0,0.5));
@@ -52,12 +52,23 @@ public class Cell extends Pane {
 				if (event.getButton().toString() == "PRIMARY"){
 					if(canBeClicked){
 						if(event.isShiftDown()){ 							// IF shift key is pressed
-							isClicked(i, j);								// -> click cell
+							if(getCurrentPiece() == GameLogic.getCurrentPlayer()){ // IF is current player
+								isClicked(i, j);								// -> click cell
+							}
 						} else if(!event.isShiftDown()){ 					// ELSE IF shift key is not pressed
+
 							if(AbaloneBoard.getAllClickedCells().size() > 0)// -> if at least one piece clicked
-								MovementAndPushing.movePiece(i, j);			// --> move piece
+								// remove all available move highlight graphic
+								for(int i = 0; i < AbaloneBoard.getAllClickedCells().size(); i++){
+									Cell[] neighbours = AbaloneBoard.getAllClickedCells().get(i).getAllNeighbouringCells();
+									for(int j = 0; j < 6; j++){
+										if (neighbours[j].hasAvailableMoveGraphic()) neighbours[j].removeAvailableMoveGraphic();
+									}
+								}
+							MovementAndPushing.movePiece(i, j);			// --> move piece
 						}
 					}
+
 				}
 			}
 		});
@@ -111,7 +122,7 @@ public class Cell extends Pane {
 		}
 	}
 
-// highlight places the player can move to
+	// highlight places the player can move to
 	public void highlightEmptyNeighbours() {
 		ArrayList<Cell> allClickedCells = AbaloneBoard.clickedCells;
 		Cell[] neighbouringCells = getAllNeighbouringCells();
@@ -226,7 +237,7 @@ public class Cell extends Pane {
 	// get piece currently in this cell
 	public Color getCurrentPiece(){
 		return aPiece.getPiece();
-		
+
 	}
 
 	// returns isClicked bool
