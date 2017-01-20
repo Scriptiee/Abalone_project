@@ -65,6 +65,8 @@ public class Abalone extends Application {
 		p2Score.getChildren().addAll(p2.getPic(), p2.getName(), p2.getLine(), p2.getScoreCard(), p2.getTimer());
 		p1Score.getChildren().addAll(p1.getPic(), p1.getName(), p1.getLine(), p1.getScoreCard(), p1.getTimer());
 		
+		// set current player
+		GameLogic.setCurrentPlayer(Color.VIOLET);
 	}
 	
 	// Overridden start method
