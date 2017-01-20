@@ -57,7 +57,7 @@ public class Cell extends Pane {
 							}
 						} else if(!event.isShiftDown()){ 					// ELSE IF shift key is not pressed
 
-							if(AbaloneBoard.getAllClickedCells().size() > 0)// -> if at least one piece clicked
+							if(AbaloneBoard.getAllClickedCells().size() > 0){// -> if at least one piece clicked
 								// remove all available move highlight graphic
 								for(int i = 0; i < AbaloneBoard.getAllClickedCells().size(); i++){
 									Cell[] neighbours = AbaloneBoard.getAllClickedCells().get(i).getAllNeighbouringCells();
@@ -65,7 +65,8 @@ public class Cell extends Pane {
 										if (neighbours[j].hasAvailableMoveGraphic()) neighbours[j].removeAvailableMoveGraphic();
 									}
 								}
-							MovementAndPushing.movePiece(i, j);			// --> move piece
+								MovementAndPushing.movePiece(i, j);			// --> move piece
+							}
 						}
 					}
 
